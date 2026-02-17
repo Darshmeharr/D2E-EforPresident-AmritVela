@@ -3,227 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Morning Blessings</title>
+<title>Amrit Vela Blessings</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* Basic Reset */
-*{margin:0;padding:0;box-sizing:border-box;}
+/* Body & Reset */
 body{
+  margin:0;
   font-family:'Inter',sans-serif;
-  min-height:100vh;
+  background:#000 url('./eeman.jpeg') center/cover no-repeat;
+  color:#fff;
   display:flex;
   justify-content:center;
   align-items:center;
-  text-align:center;
-  overflow:hidden;
-  background:#000;
-  color:#fff;
+  min-height:100vh;
   cursor:pointer;
+  overflow:hidden;
 }
 
-/* Background */
-.bg-image{
+/* Overlay to soften background */
+.overlay{
   position:fixed;
   inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center 35%;
-  z-index:-3;
-  transform-origin:center;
-  animation:zoomBg 50s ease-in-out infinite alternate;
-}
-@keyframes zoomBg{0%{transform:scale(1);}100%{transform:scale(1.05);}}
-
-/* Overlay & Rays */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:-2;}
-.rays{
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle, rgba(243,211,143,0.15) 0%, transparent 70%);
+  background:rgba(0,0,0,0.4);
   z-index:-1;
-  animation:rayPulse 6s ease-in-out infinite alternate;
-}
-@keyframes rayPulse{0%{opacity:0.15;}50%{opacity:0.3;}100%{opacity:0.15;}}
-
-/* Floating Ik Onkar & Hearts */
-.symbol{
-  position:absolute;
-  font-size:48px;
-  color:#f3d38f;
-  text-shadow:0 0 10px #f3d38f,0 0 20px #d4af37;
-  animation:floatSymbol 12s ease-in-out infinite;
-  opacity:0.7;
-}
-.symbol.heart{color:#ff7eb9; text-shadow:0 0 10px #ff7eb9,0 0 20px #ffb6c1;}
-@keyframes floatSymbol{
-  0%{transform:translateY(0) rotate(0deg);}
-  50%{transform:translateY(-25px) rotate(15deg);}
-  100%{transform:translateY(0) rotate(0deg);}
 }
 
 /* Card */
 .card{
-  position:relative;
-  background:rgba(255,255,255,0.12);
-  backdrop-filter:blur(22px);
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(18px);
   border-radius:36px;
   padding:50px 40px;
-  max-width:780px;
+  max-width:700px;
   width:90%;
-  border:2px solid rgba(255,255,255,0.2);
-  box-shadow:0 35px 90px rgba(0,0,0,0.55);
-  animation:fadeUp .9s ease both, cardPulse 4s ease-in-out infinite alternate, floatCard 6s ease-in-out infinite alternate;
+  border:1px solid rgba(255,255,255,0.15);
+  box-shadow:0 20px 50px rgba(0,0,0,0.35);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
 }
-.card::before{
-  content:"";
-  position:absolute;
-  top:-12px; left:-12px; right:-12px; bottom:-12px;
-  background:linear-gradient(45deg,#f3d38f,#d4af37,#e0c27a,#f3d38f);
-  border-radius:40px;
-  filter:blur(50px);
-  opacity:0.3;
-  z-index:-1;
-  animation:glow 12s linear infinite;
+
+/* Ik Onkar */
+.ik-onkar{
+  font-size:70px;
+  color:#f3d38f;
+  text-shadow:0 0 12px #f3d38f,0 0 25px #d4af37;
+  animation:floatIk 4s ease-in-out infinite alternate;
+  margin-bottom:25px;
 }
-@keyframes glow{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-@keyframes cardPulse{0%{border-color:rgba(243,211,143,0.2);box-shadow:0 35px 90px rgba(0,0,0,0.55);}50%{border-color:rgba(243,211,143,0.45);box-shadow:0 35px 120px rgba(243,211,143,0.25);}100%{border-color:rgba(243,211,143,0.2);box-shadow:0 35px 90px rgba(0,0,0,0.55);}}
-@keyframes floatCard{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0);}}
+@keyframes floatIk{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+  100%{transform:translateY(0);}
+}
 
 /* Headings */
-h1{font-family:'Cormorant Garamond',serif;font-size:46px;letter-spacing:.5px;}
-.subtitle{margin-top:8px;letter-spacing:2px;color:#e0c27a;font-size:12px;text-transform:uppercase;}
-.gold-line{width:120px;height:2px;background:linear-gradient(90deg,transparent,#e0c27a,transparent);margin:24px auto 8px;}
-p{margin-top:16px;line-height:1.7;font-weight:300;}
-.highlight{font-weight:500;color:#f3d38f;}
+h1{font-family:'Cormorant Garamond',serif;font-size:42px;margin-bottom:8px;}
+.subtitle{font-size:14px;color:#f3d38f;margin-bottom:16px;letter-spacing:1px;text-transform:uppercase;}
 
 /* Tabs */
-.tabs{display:flex;justify-content:center;gap:12px;margin-top:20px;flex-wrap:wrap;}
-.tab{padding:10px 24px;border-radius:36px;border:1px solid #d4af37;background:rgba(255,255,255,0.08);color:#f3d38f;cursor:pointer;transition:0.3s ease;}
+.tabs{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:20px;
+  flex-wrap:wrap;
+}
+.tab{
+  padding:10px 24px;
+  border-radius:36px;
+  border:1px solid #f3d38f;
+  background:rgba(255,255,255,0.08);
+  color:#f3d38f;
+  cursor:pointer;
+  transition:0.3s ease;
+}
 .tab:hover{background:#f3d38f;color:#111;}
 .tab.active{background:#f3d38f;color:#111;}
 
 /* Tab content */
-.tab-content{margin-top:20px;display:none;line-height:1.6;color:#f3d38f;text-shadow:0 0 5px #f3d38f;}
+.tab-content{
+  display:none;
+  margin-top:20px;
+  color:#f3d38f;
+  line-height:1.6;
+  text-align:center;
+}
 .tab-content.active{display:block;}
 
 /* Buttons */
-button{margin-top:24px;padding:14px 36px;border:none;border-radius:40px;background:linear-gradient(135deg,#d4af37,#b8964d);color:#111;font-weight:500;cursor:pointer;transition:.35s ease;box-shadow:0 6px 20px rgba(212,175,55,.3);}
-button:hover{transform:translateY(-4px);box-shadow:0 15px 35px rgba(212,175,55,.6);}
-.secondary{background:transparent;color:#f3d38f;border:1px solid #d4af37;margin-left:12px;}
-.secondary:hover{background:#d4af37;color:#111;}
-.hidden{display:none;margin-top:16px;}
+button{
+  margin-top:15px;
+  padding:12px 28px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#d4af37,#b8964d);
+  color:#111;
+  font-weight:500;
+  cursor:pointer;
+  transition:0.3s ease;
+}
+button:hover{transform:translateY(-3px);}
 
 /* Volume */
-.volume-control{margin-top:20px;display:flex;justify-content:center;align-items:center;gap:10px;}
+.volume-control{
+  margin-top:20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+}
 input[type="range"]{width:150px;}
 
-/* Responsive */
-@media (max-width:768px){
-  h1{font-size:36px;}
-  .tabs{flex-direction:column;gap:8px;}
+@media(max-width:768px){
+  h1{font-size:32px;}
+  .tabs{flex-direction:column; gap:8px;}
+  .ik-onkar{font-size:55px;}
 }
 </style>
 </head>
 <body>
 
-<!-- Background -->
-<img src="./eeman.jpeg" class="bg-image" alt="Background">
 <div class="overlay"></div>
-<div class="rays"></div>
-
-<!-- Floating Ik Onkar & Hearts -->
-<div id="symbolContainer"></div>
-
-<!-- Particles -->
-<div id="particles"></div>
-
-<!-- Audio -->
-<audio id="aisanaamAudio" loop preload="auto"><source src="./aisanaam.mp3" type="audio/mpeg"></audio>
-<audio id="rakhcharnaAudio" loop preload="auto"><source src="./rakhcharna.mp3" type="audio/mpeg"></audio>
 
 <div class="card">
-  <h1>Good Morning, My Inspiration 🌸</h1>
-  <div class="subtitle">Strength • Devotion • Peace</div>
-  <div class="gold-line"></div>
-  <p class="highlight">I hope your Amrit Vela brings serenity and light ✨</p>
+  <!-- Floating Ik Onkar -->
+  <div class="ik-onkar">੧ੴ</div>
+
+  <h1>Good Morning 🌸</h1>
+  <div class="subtitle">Amrit Vela Blessings</div>
 
   <!-- Tabs -->
   <div class="tabs">
-    <div class="tab active" data-tab="quotes">Morning Gurbani</div>
-    <div class="tab" data-tab="audio">For Your Heart</div>
-    <div class="tab" data-tab="affirmations">My Words</div>
-    <div class="tab" data-tab="blessings">Amrit Vela Blessings</div>
+    <div class="tab active" data-tab="gurbani">Morning Gurbani</div>
+    <div class="tab" data-tab="affirmations">Affirmations</div>
+    <div class="tab" data-tab="guidance">Guidance</div>
+    <div class="tab" data-tab="blessings">Blessings</div>
   </div>
 
   <!-- Tab Contents -->
-  <div id="quotes" class="tab-content active">
-    <p class="gurbani-quote">ਮਨ ਤੂੰ ਜੋਤਿ ਸਰੂਪੁ ਹੈ ਆਪਣਾ ਮੂਲੁ ਪਛਾਣੁ ॥</p>
-    <p>I hope these words bring light and calm to your morning.</p>
-  </div>
-  <div id="audio" class="tab-content">
-    <button onclick="playRakhCharna()">Play Gentle Morning Music</button>
-    <p>Click anywhere to start Aisanaam — I thought you might enjoy this 🌸</p>
-  </div>
-  <div id="affirmations" class="tab-content">
-    <p>My dear, your devotion and grace inspire me every day.<br>
-       I hope today brings you peace and clarity.<br>
-       May Waheguru bless your every step.</p>
-  </div>
-  <div id="blessings" class="tab-content">
-    <p>Start your Amrit Vela with calmness and love.<br>
-       Know that someone out there wishes you happiness, serenity, and guidance 💛</p>
+  <div id="gurbani" class="tab-content active">
+    <p>ਮਨ ਤੂੰ ਜੋਤਿ ਸਰੂਪੁ ਹੈ ਆਪਣਾ ਮੂਲੁ ਪਛਾਣੁ ॥</p>
+    <button onclick="playGurbani()">Play Morning Gurbani</button>
   </div>
 
-  <!-- Volume -->
+  <div id="affirmations" class="tab-content">
+    <p>I start my day with clarity.<br>
+       I embrace meditation and devotion.<br>
+       May Waheguru guide my every step.</p>
+  </div>
+
+  <div id="guidance" class="tab-content">
+    <p>Focus on seva, prayer, and reflection.<br>
+       Let your heart be calm and filled with light.</p>
+  </div>
+
+  <div id="blessings" class="tab-content">
+    <p>May your Amrit Vela be peaceful.<br>
+       May your mind and soul be nourished.<br>
+       Waheguru bless you today and always.</p>
+  </div>
+
+  <!-- Volume control -->
   <div class="volume-control">
     <label>Background Volume:</label>
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
   </div>
 </div>
 
+<!-- Audio -->
+<audio id="backgroundAudio" loop preload="auto">
+  <source src="./background.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="gurbaniAudio" preload="auto">
+  <source src="./morning_gurbani.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-// Floating particles
-const particlesContainer = document.getElementById("particles");
-for(let i=0;i<60;i++){
-  const p=document.createElement("div");
-  p.classList.add("particle");
-  p.style.left=Math.random()*100 + "vw";
-  const size=Math.random()*3+2;
-  p.style.width=size+"px";
-  p.style.height=size+"px";
-  p.style.background=`rgba(243,211,143,${Math.random()*0.5+0.3})`;
-  p.style.animationDuration=(Math.random()*25+15)+"s";
-  p.style.animationDelay=(Math.random()*15)+"s";
-  particlesContainer.appendChild(p);
-}
-
-// Floating Ik Onkar + Hearts
-const symbolContainer=document.getElementById("symbolContainer");
-for(let i=0;i<12;i++){
-  const sym=document.createElement("div");
-  sym.classList.add("symbol");
-  sym.innerText="੧ੴ"; // Ik Onkar
-  sym.style.left=Math.random()*100+"vw";
-  sym.style.top=Math.random()*80+"vh";
-  sym.style.fontSize=(30+Math.random()*30)+"px";
-  sym.style.opacity=0.5 + Math.random()*0.5;
-  symbolContainer.appendChild(sym);
-}
-// Add hearts
-for(let i=0;i<6;i++){
-  const heart=document.createElement("div");
-  heart.classList.add("symbol","heart");
-  heart.innerText="❤";
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.top=Math.random()*80+"vh";
-  heart.style.fontSize=(20+Math.random()*20)+"px";
-  heart.style.opacity=0.4+Math.random()*0.5;
-  symbolContainer.appendChild(heart);
-}
-
-// Tabs functionality
+// Tabs
 const tabs=document.querySelectorAll('.tab');
 const contents=document.querySelectorAll('.tab-content');
 tabs.forEach(tab=>{
@@ -235,21 +193,29 @@ tabs.forEach(tab=>{
   });
 });
 
-// Audio
-const aisanaam=document.getElementById("aisanaamAudio");
-const rakhcharna=document.getElementById("rakhcharnaAudio");
-let audioStarted=false;
-document.body.addEventListener("click",()=>{
-  if(!audioStarted){
-    aisanaam.volume=0.3;
-    aisanaam.play().catch(()=>{});
-    audioStarted=true;
+// Background music on first click
+const bgAudio=document.getElementById('backgroundAudio');
+let bgStarted=false;
+document.body.addEventListener('click',()=>{
+  if(!bgStarted){
+    bgAudio.volume=0.3;
+    bgAudio.play().catch(()=>{});
+    bgStarted=true;
   }
 });
-function playRakhCharna(){ rakhcharna.volume=0.3; rakhcharna.play().catch(()=>{}); }
 
-// Volume slider
-document.getElementById("volumeSlider").addEventListener("input",e=>{aisanaam.volume=e.target.value;});
+// Morning Gurbani
+const gurbaniAudio=document.getElementById('gurbaniAudio');
+function playGurbani(){
+  gurbaniAudio.currentTime=0;
+  gurbaniAudio.play().catch(()=>{});
+}
+
+// Volume control
+document.getElementById('volumeSlider').addEventListener('input',e=>{
+  bgAudio.volume=e.target.value;
+});
 </script>
+
 </body>
 </html>
