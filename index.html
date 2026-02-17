@@ -18,24 +18,22 @@ body{
   overflow:hidden;
   color:#fff;
   position:relative;
+  background: linear-gradient(160deg, #1a1a1a 0%, #000 100%);
 }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background: url('./eeman.jpeg') center/cover no-repeat;
-  filter: blur(8px) brightness(0.6);
-  z-index:-2;
+/* Sikhism-inspired background for Amrit Vela */
+body.active-background{
+  background: linear-gradient(160deg, #f7c873 0%, #d4af37 70%, #f3d38f 100%);
 }
 
 .overlay{
   position:fixed;
   inset:0;
-  background: rgba(0,0,0,0.25);
+  background: rgba(0,0,0,0.15);
   z-index:-1;
 }
 
+/* Card */
 .card{
   background:rgba(255,255,255,0.05);
   backdrop-filter:blur(18px);
@@ -138,7 +136,7 @@ input[type="range"]{width:150px;}
 #inactiveOverlay{
   position:fixed;
   inset:0;
-  background:#000c;
+  background:#000; /* fully dark outside Amrit Vela */
   color:#f3d38f;
   font-size:22px;
   display:flex;
@@ -149,6 +147,7 @@ input[type="range"]{width:150px;}
   padding:20px;
 }
 
+/* Responsive */
 @media(max-width:768px){
   h1{font-size:32px;}
   .tabs{flex-direction:column; gap:8px;}
@@ -158,10 +157,8 @@ input[type="range"]{width:150px;}
 </head>
 <body>
 
-<!-- Inactive overlay -->
-<div id="inactiveOverlay" class="hidden">
-  This page is active only during Amrit Vela (3:00 AM – 6:00 AM) as per D.
-</div>
+<!-- Overlay for outside Amrit Vela -->
+<div id="inactiveOverlay">This page is active only during Amrit Vela (3:00 AM – 6:00 AM) as per D.</div>
 
 <div class="overlay"></div>
 
@@ -179,7 +176,7 @@ input[type="range"]{width:150px;}
     <div class="tab" data-tab="blessings">Blessings</div>
   </div>
 
-  <!-- Tab Contents -->
+  <!-- Tab contents -->
   <div id="rakhcharna" class="tab-content active">
     <p>Focus on Rakh Charna for calmness and clarity.</p>
     <button onclick="playRakhCharna()">Play Rakh Charna</button>
@@ -226,23 +223,24 @@ input[type="range"]{width:150px;}
 </audio>
 
 <script>
-// Time check for Amrit Vela
+// Check Amrit Vela
 function checkAmritVela(){
   const overlay = document.getElementById('inactiveOverlay');
+  const body = document.body;
   const now = new Date();
   const hours = now.getHours();
   if(hours >= 3 && hours < 6){
     overlay.style.display = 'none';
+    body.classList.add('active-background'); // Sikhism-inspired gradient
   } else {
     overlay.style.display = 'flex';
+    body.classList.remove('active-background');
   }
 }
-
-// Run initially and every minute
 checkAmritVela();
-setInterval(checkAmritVela, 60000);
+setInterval(checkAmritVela,60000);
 
-// Tabs functionality with sparkles
+// Tabs functionality with sparkle effect
 const tabs=document.querySelectorAll('.tab');
 const contents=document.querySelectorAll('.tab-content');
 const card = document.getElementById('card');
@@ -255,7 +253,7 @@ tabs.forEach(tab=>{
     tab.classList.add('active');
     document.getElementById(tab.dataset.tab).classList.add('active');
 
-    // Animate card glow and Khanda pulse
+    // Animate card and Khanda
     card.style.transform = "scale(1.02)";
     khanda.style.transform = "translateY(-10px) scale(1.05)";
     setTimeout(()=>{
@@ -263,7 +261,7 @@ tabs.forEach(tab=>{
       khanda.style.transform = "";
     },500);
 
-    // Add subtle sparkles
+    // Subtle sparkles
     for(let i=0;i<6;i++){
       const spark=document.createElement('div');
       spark.classList.add('sparkle');
