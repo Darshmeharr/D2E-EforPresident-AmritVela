@@ -18,22 +18,26 @@ display:flex;
 justify-content:center;
 align-items:center;
 overflow:hidden;
-background:url("./eeman.jpeg") center/cover no-repeat fixed;
+
+/* FULL IMAGE VISIBILITY */
+background:url("./eeman.jpeg") center/contain no-repeat fixed;
+background-color:black;
 transition:background 4s ease;
 }
 
+/* Softer overlay so image visible */
 body::before{
 content:"";
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.65);
-backdrop-filter:blur(6px);
+background:rgba(0,0,0,0.45);
+backdrop-filter:blur(3px);
 z-index:-1;
 }
 
 body.awaken{
-background:linear-gradient(rgba(0,0,0,.5), rgba(243,211,143,.15)),
-url("./eeman.jpeg") center/cover no-repeat fixed;
+background:linear-gradient(rgba(0,0,0,.35), rgba(243,211,143,.12)),
+url("./eeman.jpeg") center/contain no-repeat fixed;
 }
 
 /* Overlay */
@@ -74,7 +78,6 @@ color:#f3d38f;
 text-shadow:0 0 30px #f3d38f;
 animation:float 4s infinite ease-in-out;
 cursor:pointer;
-position:relative;
 }
 
 @keyframes float{
@@ -126,30 +129,21 @@ font-weight:500;
 
 <body>
 
-<!-- TIME OVERLAY WITH FULL MESSAGE -->
 <div id="timeOverlay">
 <div>
-
 This space awakens during Amrit Vela.<br><br>
-
 From 3:00 AM to 6:00 AM <br>
 a time meant for clarity, strength, and quiet reflection.<br><br>
-
 It was created so you begin your big day with calmness,<br>
 confidence,<br>
 and faith in your journey.<br><br>
-
 Return during these sacred hours.<br><br>
-
 With belief in you,<br>
 — From D.<br><br>
-
 Waheguru walks beside those who walk with faith.
-
 </div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="card" id="mainContent" style="display:none">
 
 <div class="khanda" id="khanda">☬</div>
@@ -177,7 +171,6 @@ Waheguru walks beside those who walk with faith.
 
 </div>
 
-<!-- AUDIO -->
 <audio id="aisanaam" loop>
 <source src="./aisanaam.mp3">
 </audio>
@@ -194,7 +187,6 @@ const rakh=document.getElementById("rakhcharna");
 let currentAudio=null;
 let userStarted=false;
 
-/* Fade Out */
 async function fadeOut(audio){
 return new Promise(resolve=>{
 let fade=setInterval(()=>{
@@ -209,14 +201,17 @@ resolve();
 });
 }
 
-/* Play Audio */
 async function playAudio(audio){
+
 if(currentAudio && currentAudio!==audio){
 await fadeOut(currentAudio);
 }
-audio.volume=0;
+
+audio.currentTime = 0;
+audio.volume = 0;
 audio.play();
-currentAudio=audio;
+
+currentAudio = audio;
 
 let fade=setInterval(()=>{
 if(audio.volume<0.3){
@@ -225,13 +220,16 @@ audio.volume+=0.02;
 },120);
 }
 
-/* Rakh Charna */
-function playRakh(){
+/* Rakh Charna FIXED */
+function playRakh(event){
+
+event.stopPropagation(); // prevents body click conflict
 playAudio(rakh);
-rakh.onended=()=> playAudio(aisanaam);
+
+rakh.onended = () => playAudio(aisanaam);
 }
 
-/* First Click Starts Background Audio */
+/* Background Audio */
 document.body.addEventListener("click",()=>{
 if(!userStarted){
 playAudio(aisanaam);
@@ -239,7 +237,6 @@ userStarted=true;
 }
 });
 
-/* TIME LOCK */
 const overlay=document.getElementById("timeOverlay");
 const content=document.getElementById("mainContent");
 
@@ -259,7 +256,6 @@ content.style.display="none";
 setInterval(checkTime,60000);
 checkTime();
 
-/* Tabs */
 document.querySelectorAll(".tab").forEach(tab=>{
 tab.onclick=()=>{
 document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
@@ -270,10 +266,9 @@ document.getElementById(tab.dataset.tab).classList.add("active");
 }
 });
 
-/* Secret Blessing */
 document.getElementById("khanda").onclick=()=>{
 document.getElementById("secretText").innerText =
-"Someone believes in you with full faith and wanted to see you grow! Big Day coming up! Be prepared .";
+"Someone believes in you with full faith and wanted to see you grow! Big Day coming up! Be prepared.";
 };
 
 </script>
