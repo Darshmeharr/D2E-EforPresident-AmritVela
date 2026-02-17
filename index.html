@@ -31,7 +31,7 @@ body::before{
   z-index:-1;
 }
 
-/* Time overlay fully black and motivating */
+/* Time overlay fully black */
 #timeOverlay{
   position:fixed;
   inset:0;
@@ -180,4 +180,127 @@ p{
     <p>I am calm. I am ready. Waheguru walks beside me.<br>
     I am prepared to face today with courage and joy.<br>
     Each step I take brings me closer to success and growth.</p>
-  </div
+  </div>
+
+  <div id="secret" class="tab-content">
+    <p id="secretText">Tap the Khanda…</p>
+  </div>
+</div>
+
+<!-- AUDIO FILES -->
+<audio id="aisanaam" loop>
+  <source src="./aisanaam.mp3">
+</audio>
+<audio id="rakhcharna">
+  <source src="./rakhcharna.mp3">
+</audio>
+
+<script>
+const aisanaam=document.getElementById("aisanaam");
+const rakh=document.getElementById("rakhcharna");
+let currentAudio=null;
+let userStarted=false;
+
+// Fade out audio smoothly
+async function fadeOut(audio){
+  return new Promise(resolve=>{
+    let fade=setInterval(()=>{
+      if(audio.volume>0.05){
+        audio.volume-=0.05;
+      }else{
+        audio.pause();
+        clearInterval(fade);
+        resolve();
+      }
+    },80);
+  });
+}
+
+// Play audio with fade in
+async function playAudio(audio){
+  if(currentAudio && currentAudio!==audio){
+    await fadeOut(currentAudio);
+  }
+  audio.currentTime=0;
+  audio.volume=0;
+  audio.play();
+  currentAudio=audio;
+  let fade=setInterval(()=>{
+    if(audio.volume<0.3) audio.volume+=0.02;
+    else clearInterval(fade);
+  },120);
+}
+
+// Play Rakh Charna smoothly
+function playRakh(event){
+  event.stopPropagation();
+  if(!rakh.paused) return; // prevent multiple clicks conflict
+  if(!aisanaam.paused){
+    fadeOut(aisanaam).then(()=>{
+      rakh.currentTime=0;
+      rakh.volume=0;
+      rakh.play();
+      currentAudio=rakh;
+      let fade=setInterval(()=>{
+        if(rakh.volume<0.3) rakh.volume+=0.02;
+        else clearInterval(fade);
+      },120);
+    });
+  } else {
+    rakh.currentTime=0;
+    rakh.volume=0;
+    rakh.play();
+    currentAudio=rakh;
+    let fade=setInterval(()=>{
+      if(rakh.volume<0.3) rakh.volume+=0.02;
+      else clearInterval(fade);
+    },120);
+  }
+  rakh.onended = ()=> playAudio(aisanaam);
+}
+
+// Start Aisa Naam on first click anywhere
+document.body.addEventListener("click",()=>{
+  if(!userStarted){
+    playAudio(aisanaam);
+    userStarted=true;
+  }
+});
+
+// TIME LOCK 3AM–6AM (more precise)
+const overlay=document.getElementById("timeOverlay");
+const content=document.getElementById("mainContent");
+function checkTime(){
+  const now = new Date();
+  const h = now.getHours();
+  const m = now.getMinutes();
+  if((h > 3 && h < 6) || (h === 3 && m >= 0)){
+    overlay.style.display="none";
+    content.style.display="block";
+    document.body.classList.add("awaken");
+  } else {
+    overlay.style.display="flex";
+    content.style.display="none";
+  }
+}
+setInterval(checkTime, 30000);
+checkTime();
+
+// Tabs functionality
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  }
+});
+
+// Khanda click for secret blessing
+document.getElementById("khanda").onclick=()=>{
+  document.getElementById("secretText").innerText=
+    "Someone believes in you with full faith and wanted to see you grow! Big Day coming up! Be prepared.";
+};
+</script>
+</body>
+</html>
