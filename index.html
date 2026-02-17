@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amrit Vela Blessings</title>
+<title>Amrit Vela - Big Day Boost</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 /* Body & Reset */
@@ -20,7 +20,6 @@ body{
   overflow:hidden;
 }
 
-/* Overlay to soften background */
 .overlay{
   position:fixed;
   inset:0;
@@ -34,7 +33,7 @@ body{
   backdrop-filter:blur(18px);
   border-radius:36px;
   padding:50px 40px;
-  max-width:700px;
+  max-width:720px;
   width:90%;
   border:1px solid rgba(255,255,255,0.15);
   box-shadow:0 20px 50px rgba(0,0,0,0.35);
@@ -43,15 +42,15 @@ body{
   overflow:hidden;
 }
 
-/* Ik Onkar */
-.ik-onkar{
+/* Floating Khanda */
+.khanda{
   font-size:70px;
   color:#f3d38f;
   text-shadow:0 0 12px #f3d38f,0 0 25px #d4af37;
-  animation:floatIk 4s ease-in-out infinite alternate;
+  animation:floatKhanda 4s ease-in-out infinite alternate;
   margin-bottom:25px;
 }
-@keyframes floatIk{
+@keyframes floatKhanda{
   0%{transform:translateY(0);}
   50%{transform:translateY(-20px);}
   100%{transform:translateY(0);}
@@ -105,7 +104,7 @@ button{
 }
 button:hover{transform:translateY(-3px);}
 
-/* Volume */
+/* Volume control */
 .volume-control{
   margin-top:20px;
   display:flex;
@@ -118,7 +117,7 @@ input[type="range"]{width:150px;}
 @media(max-width:768px){
   h1{font-size:32px;}
   .tabs{flex-direction:column; gap:8px;}
-  .ik-onkar{font-size:55px;}
+  .khanda{font-size:55px;}
 }
 </style>
 </head>
@@ -127,41 +126,56 @@ input[type="range"]{width:150px;}
 <div class="overlay"></div>
 
 <div class="card">
-  <!-- Floating Ik Onkar -->
-  <div class="ik-onkar">੧ੴ</div>
+  <!-- Floating Khanda -->
+  <div class="khanda">☬</div>
 
   <h1>Good Morning 🌸</h1>
   <div class="subtitle">Amrit Vela Blessings</div>
 
   <!-- Tabs -->
   <div class="tabs">
-    <div class="tab active" data-tab="gurbani">Morning Gurbani</div>
+    <div class="tab active" data-tab="aisanaam">Aisanaam</div>
+    <div class="tab" data-tab="rakhcharna">Rakh Charna</div>
     <div class="tab" data-tab="affirmations">Affirmations</div>
     <div class="tab" data-tab="guidance">Guidance</div>
     <div class="tab" data-tab="blessings">Blessings</div>
   </div>
 
   <!-- Tab Contents -->
-  <div id="gurbani" class="tab-content active">
-    <p>ਮਨ ਤੂੰ ਜੋਤਿ ਸਰੂਪੁ ਹੈ ਆਪਣਾ ਮੂਲੁ ਪਛਾਣੁ ॥</p>
-    <button onclick="playGurbani()">Play Morning Gurbani</button>
+  <div id="aisanaam" class="tab-content active">
+    <p>Listen to Aisanaam to start your day with spiritual energy and focus.</p>
+    <button onclick="playAisanaam()">Play Aisanaam</button>
+  </div>
+
+  <div id="rakhcharna" class="tab-content">
+    <p>Focus on Rakh Charna to feel devotion, calmness, and clarity.</p>
+    <button onclick="playRakhCharna()">Play Rakh Charna</button>
   </div>
 
   <div id="affirmations" class="tab-content">
-    <p>I start my day with clarity.<br>
-       I embrace meditation and devotion.<br>
-       May Waheguru guide my every step.</p>
+    <p>
+      I am calm and focused.<br>
+      I trust my preparation and abilities.<br>
+      Today, I will give my best effort.<br>
+      Waheguru guides every step.
+    </p>
   </div>
 
   <div id="guidance" class="tab-content">
-    <p>Focus on seva, prayer, and reflection.<br>
-       Let your heart be calm and filled with light.</p>
+    <p>
+      Take deep breaths.<br>
+      Plan your day step by step.<br>
+      Stay present in the moment.<br>
+      Confidence and clarity come from patience and devotion.
+    </p>
   </div>
 
   <div id="blessings" class="tab-content">
-    <p>May your Amrit Vela be peaceful.<br>
-       May your mind and soul be nourished.<br>
-       Waheguru bless you today and always.</p>
+    <p>
+      May your mind be clear and heart calm.<br>
+      May Waheguru bless your efforts today.<br>
+      Your preparation is ready to shine.
+    </p>
   </div>
 
   <!-- Volume control -->
@@ -176,12 +190,16 @@ input[type="range"]{width:150px;}
   <source src="./background.mp3" type="audio/mpeg">
 </audio>
 
-<audio id="gurbaniAudio" preload="auto">
-  <source src="./morning_gurbani.mp3" type="audio/mpeg">
+<audio id="aisanaamAudio" preload="auto">
+  <source src="./aisanaam.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="rakhcharnaAudio" preload="auto">
+  <source src="./rakhcharna.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// Tabs
+// Tab functionality
 const tabs=document.querySelectorAll('.tab');
 const contents=document.querySelectorAll('.tab-content');
 tabs.forEach(tab=>{
@@ -193,7 +211,7 @@ tabs.forEach(tab=>{
   });
 });
 
-// Background music on first click
+// Background music starts on first click
 const bgAudio=document.getElementById('backgroundAudio');
 let bgStarted=false;
 document.body.addEventListener('click',()=>{
@@ -204,11 +222,18 @@ document.body.addEventListener('click',()=>{
   }
 });
 
-// Morning Gurbani
-const gurbaniAudio=document.getElementById('gurbaniAudio');
-function playGurbani(){
-  gurbaniAudio.currentTime=0;
-  gurbaniAudio.play().catch(()=>{});
+// Play Aisanaam audio
+const aisanaamAudio=document.getElementById('aisanaamAudio');
+function playAisanaam(){
+  aisanaamAudio.currentTime=0;
+  aisanaamAudio.play().catch(()=>{});
+}
+
+// Play Rakh Charna audio
+const rakhcharnaAudio=document.getElementById('rakhcharnaAudio');
+function playRakhCharna(){
+  rakhcharnaAudio.currentTime=0;
+  rakhcharnaAudio.play().catch(()=>{});
 }
 
 // Volume control
