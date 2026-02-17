@@ -16,7 +16,6 @@ body{
   align-items:center;
   overflow:hidden;
   background:url("./eeman.jpeg") center/cover no-repeat fixed;
-  /* optional subtle zoom animation like original */
   animation:zoomBg 50s ease-in-out infinite alternate;
 }
 @keyframes zoomBg{
@@ -27,12 +26,12 @@ body::before{
   content:"";
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.65); /* overlay so content is readable */
+  background:rgba(0,0,0,0.55);
   backdrop-filter:blur(6px);
   z-index:-1;
 }
 
-/* Overlay for time-lock */
+/* Time overlay fully black and motivating */
 #timeOverlay{
   position:fixed;
   inset:0;
@@ -45,70 +44,90 @@ body::before{
   z-index:9999;
   color:#f3d38f;
   font-family:'Noto Serif Gurmukhi';
-  font-size:20px;
-  line-height:1.7;
+  font-size:22px;
+  line-height:1.8;
+  font-weight:500;
 }
 
-/* Card */
+/* Main card */
 .card{
   background:rgba(255,255,255,0.07);
   backdrop-filter:blur(20px);
   border-radius:30px;
-  padding:45px;
+  padding:50px 40px;
   width:90%;
   max-width:720px;
   text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  box-shadow:0 25px 80px rgba(0,0,0,0.5);
   position:relative;
   overflow:hidden;
 }
 
-/* Khanda */
+/* Khanda floating */
 .khanda{
-  font-size:70px;
+  font-size:80px;
   color:#f3d38f;
   text-shadow:0 0 30px #f3d38f;
   animation:float 4s infinite ease-in-out;
   cursor:pointer;
+  margin-bottom:20px;
 }
 @keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-12px)}
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-15px);}
 }
 
 /* Tabs */
 .tabs{
   display:flex;
   justify-content:center;
-  gap:12px;
+  gap:14px;
   flex-wrap:wrap;
-  margin-top:20px;
+  margin-top:30px;
 }
 .tab{
-  padding:10px 22px;
+  padding:12px 26px;
   border-radius:30px;
   border:1px solid #f3d38f;
   color:#f3d38f;
   cursor:pointer;
+  font-weight:500;
+  transition:0.3s;
 }
+.tab:hover{background:rgba(243,211,143,0.2);}
 .tab.active{
   background:#f3d38f;
   color:#111;
 }
 .tab-content{
   display:none;
-  margin-top:20px;
+  margin-top:25px;
   color:#f3d38f;
+  font-size:18px;
+  line-height:1.7;
 }
 .tab-content.active{display:block}
-
 button{
-  padding:12px 22px;
+  padding:12px 28px;
   border:none;
-  border-radius:20px;
+  border-radius:22px;
   background:#f3d38f;
   cursor:pointer;
   font-weight:500;
+  margin-top:12px;
+}
+button:hover{
+  background:#d4af37;
+}
+
+/* motivational text emphasis */
+h1{
+  font-size:42px;
+  margin-bottom:6px;
+}
+p{
+  font-size:18px;
+  margin-bottom:18px;
 }
 </style>
 </head>
@@ -117,13 +136,13 @@ button{
 <!-- TIME LOCK OVERLAY -->
 <div id="timeOverlay">
   <div>
-    This space awakens during Amrit Vela.<br><br>
-    From 3:00 AM to 6:00 AM <br>
-    a time meant for clarity, strength, and quiet reflection.<br><br>
-    It was created so you begin your big day with calmness,<br>
-    confidence,<br>
-    and faith in your journey.<br><br>
-    Return during these sacred hours.<br><br>
+    🌟 This space awakens during Amrit Vela 🌟<br><br>
+    From 3:00 AM to 6:00 AM<br>
+    A sacred window for clarity, courage, and inner strength.<br><br>
+    Designed to boost you for your big day,<br>
+    fill your heart with confidence,<br>
+    and guide your steps with faith.<br><br>
+    Come back during these hours and feel ready.<br><br>
     With belief in you,<br>
     — From D.<br><br>
     Waheguru walks beside those who walk with faith.
@@ -134,7 +153,7 @@ button{
 <div class="card" id="mainContent" style="display:none">
   <div class="khanda" id="khanda">☬</div>
   <h1>Good Morning Eeman</h1>
-  <p>Created quietly for your big day</p>
+  <p>Quietly created for your growth and success today</p>
 
   <div class="tabs">
     <div class="tab active" data-tab="rakh">Rakh Charna</div>
@@ -147,7 +166,8 @@ button{
   </div>
 
   <div id="affirm" class="tab-content">
-    <p>I am calm. I am ready. Waheguru walks beside me.</p>
+    <p>I am calm. I am ready. Waheguru walks beside me.<br>
+    I am prepared to face today with courage and joy.</p>
   </div>
 
   <div id="secret" class="tab-content">
@@ -204,6 +224,7 @@ function playRakh(event){
   rakh.onended = ()=>playAudio(aisanaam);
 }
 
+/* start Aisa Naam on first click */
 document.body.addEventListener("click",()=>{
   if(!userStarted){
     playAudio(aisanaam);
@@ -240,7 +261,7 @@ document.querySelectorAll(".tab").forEach(tab=>{
   }
 });
 
-/* Khanda click */
+/* Khanda click for secret blessing */
 document.getElementById("khanda").onclick=()=>{
   document.getElementById("secretText").innerText=
     "Someone believes in you with full faith and wanted to see you grow! Big Day coming up! Be prepared.";
