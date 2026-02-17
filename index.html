@@ -36,7 +36,6 @@ body::before{
   z-index:-1;
 }
 
-/* Card */
 .card{
   background:rgba(255,255,255,0.05);
   backdrop-filter:blur(18px);
@@ -52,7 +51,6 @@ body::before{
   transition: box-shadow 0.5s ease, transform 0.5s ease;
 }
 
-/* Floating Khanda */
 .khanda{
   font-size:70px;
   color:#f3d38f;
@@ -67,12 +65,10 @@ body::before{
   100%{transform:translateY(0);}
 }
 
-/* Headings */
 h1{font-family:'Cormorant Garamond',serif;font-size:42px;margin-bottom:8px;}
 .subtitle{font-size:16px;color:#f3d38f;margin-bottom:16px;letter-spacing:1px;text-transform:uppercase;}
 .highlight{font-weight:500;color:#f3d38f;font-size:20px;margin-bottom:16px;}
 
-/* Tabs */
 .tabs{
   display:flex;
   justify-content:center;
@@ -92,7 +88,6 @@ h1{font-family:'Cormorant Garamond',serif;font-size:42px;margin-bottom:8px;}
 .tab:hover{background:#f3d38f;color:#111;}
 .tab.active{background:#f3d38f;color:#111;}
 
-/* Tab content */
 .tab-content{
   display:none;
   margin-top:20px;
@@ -102,7 +97,6 @@ h1{font-family:'Cormorant Garamond',serif;font-size:42px;margin-bottom:8px;}
 }
 .tab-content.active{display:block;}
 
-/* Buttons */
 button{
   margin-top:15px;
   padding:12px 28px;
@@ -116,7 +110,6 @@ button{
 }
 button:hover{transform:translateY(-3px);}
 
-/* Volume control */
 .volume-control{
   margin-top:20px;
   display:flex;
@@ -141,6 +134,21 @@ input[type="range"]{width:150px;}
   100%{opacity:0; transform:translateY(-20px) scale(1.5);}
 }
 
+/* Full screen inactive overlay */
+#inactiveOverlay{
+  position:fixed;
+  inset:0;
+  background:#000c;
+  color:#f3d38f;
+  font-size:22px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:9999;
+  padding:20px;
+}
+
 @media(max-width:768px){
   h1{font-size:32px;}
   .tabs{flex-direction:column; gap:8px;}
@@ -149,6 +157,11 @@ input[type="range"]{width:150px;}
 </style>
 </head>
 <body>
+
+<!-- Inactive overlay -->
+<div id="inactiveOverlay" class="hidden">
+  This page is active only during Amrit Vela (3:00 AM – 6:00 AM) as per D.
+</div>
 
 <div class="overlay"></div>
 
@@ -213,7 +226,23 @@ input[type="range"]{width:150px;}
 </audio>
 
 <script>
-// Tabs functionality with sparkle animation
+// Time check for Amrit Vela
+function checkAmritVela(){
+  const overlay = document.getElementById('inactiveOverlay');
+  const now = new Date();
+  const hours = now.getHours();
+  if(hours >= 3 && hours < 6){
+    overlay.style.display = 'none';
+  } else {
+    overlay.style.display = 'flex';
+  }
+}
+
+// Run initially and every minute
+checkAmritVela();
+setInterval(checkAmritVela, 60000);
+
+// Tabs functionality with sparkles
 const tabs=document.querySelectorAll('.tab');
 const contents=document.querySelectorAll('.tab-content');
 const card = document.getElementById('card');
@@ -250,7 +279,7 @@ tabs.forEach(tab=>{
 const aisanaamAudio=document.getElementById('aisanaamAudio');
 let started=false;
 document.body.addEventListener('click',()=>{
-  if(!started){
+  if(!started && document.getElementById('inactiveOverlay').style.display==='none'){
     aisanaamAudio.volume=0.3;
     aisanaamAudio.play().catch(()=>{});
     started=true;
@@ -260,7 +289,7 @@ document.body.addEventListener('click',()=>{
 // Play Rakh Charna and mute Aisanaam
 const rakhcharnaAudio=document.getElementById('rakhcharnaAudio');
 function playRakhCharna(){
-  aisanaamAudio.volume = 0;  // mute Aisanaam
+  aisanaamAudio.volume = 0;
   rakhcharnaAudio.currentTime=0;
   rakhcharnaAudio.play().catch(()=>{});
   rakhcharnaAudio.onended = ()=>{
@@ -277,6 +306,5 @@ document.getElementById('volumeSlider').addEventListener('input',e=>{
   }
 });
 </script>
-
 </body>
 </html>
