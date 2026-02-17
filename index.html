@@ -6,24 +6,35 @@
 <title>Amrit Vela - Big Day Boost</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* Body & Reset */
+/* Reset & Body */
 body{
   margin:0;
   font-family:'Inter',sans-serif;
-  background:#000 url('./eeman.jpeg') center/cover no-repeat;
-  color:#fff;
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:100vh;
   cursor:pointer;
   overflow:hidden;
+  color:#fff;
+  position:relative;
 }
 
+/* Blurred background */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background: url('./eeman.jpeg') center/cover no-repeat;
+  filter: blur(8px) brightness(0.6);
+  z-index:-2;
+}
+
+/* Overlay for extra darkness */
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.25);
   z-index:-1;
 }
 
@@ -48,7 +59,7 @@ body{
   color:#f3d38f;
   text-shadow:0 0 12px #f3d38f,0 0 25px #d4af37;
   animation:floatKhanda 4s ease-in-out infinite alternate;
-  margin-bottom:25px;
+  margin-bottom:20px;
 }
 @keyframes floatKhanda{
   0%{transform:translateY(0);}
@@ -58,7 +69,13 @@ body{
 
 /* Headings */
 h1{font-family:'Cormorant Garamond',serif;font-size:42px;margin-bottom:8px;}
-.subtitle{font-size:14px;color:#f3d38f;margin-bottom:16px;letter-spacing:1px;text-transform:uppercase;}
+.subtitle{font-size:16px;color:#f3d38f;margin-bottom:16px;letter-spacing:1px;text-transform:uppercase;}
+.highlight{
+  font-weight:500;
+  color:#f3d38f;
+  font-size:20px;
+  margin-bottom:16px;
+}
 
 /* Tabs */
 .tabs{
@@ -129,7 +146,9 @@ input[type="range"]{width:150px;}
   <!-- Floating Khanda -->
   <div class="khanda">☬</div>
 
-  <h1>Good Morning 🌸</h1>
+  <!-- Personalized Greeting -->
+  <div class="highlight">Good Morning Eeman 🌸</div>
+  <h1>E To Be President</h1>
   <div class="subtitle">Amrit Vela Blessings</div>
 
   <!-- Tabs -->
@@ -143,12 +162,15 @@ input[type="range"]{width:150px;}
 
   <!-- Tab Contents -->
   <div id="aisanaam" class="tab-content active">
-    <p>Listen to Aisanaam to start your day with spiritual energy and focus.</p>
-    <button onclick="playAisanaam()">Play Aisanaam</button>
+    <p>
+      Begin your Amrit Vela with the sacred Aisanaam.<br>
+      Let the divine Gurbani awaken your mind, calm your heart,<br>
+      and fill your day with clarity, focus, and purpose.
+    </p>
   </div>
 
   <div id="rakhcharna" class="tab-content">
-    <p>Focus on Rakh Charna to feel devotion, calmness, and clarity.</p>
+    <p>Focus on Rakh Charna for calmness and clarity.</p>
     <button onclick="playRakhCharna()">Play Rakh Charna</button>
   </div>
 
@@ -180,26 +202,21 @@ input[type="range"]{width:150px;}
 
   <!-- Volume control -->
   <div class="volume-control">
-    <label>Background Volume:</label>
+    <label>Audio Volume:</label>
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
   </div>
 </div>
 
 <!-- Audio -->
-<audio id="backgroundAudio" loop preload="auto">
-  <source src="./background.mp3" type="audio/mpeg">
-</audio>
-
 <audio id="aisanaamAudio" preload="auto">
   <source src="./aisanaam.mp3" type="audio/mpeg">
 </audio>
-
 <audio id="rakhcharnaAudio" preload="auto">
   <source src="./rakhcharna.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// Tab functionality
+// Tabs functionality
 const tabs=document.querySelectorAll('.tab');
 const contents=document.querySelectorAll('.tab-content');
 tabs.forEach(tab=>{
@@ -211,23 +228,16 @@ tabs.forEach(tab=>{
   });
 });
 
-// Background music starts on first click
-const bgAudio=document.getElementById('backgroundAudio');
-let bgStarted=false;
+// Play Aisanaam automatically on first click
+const aisanaamAudio=document.getElementById('aisanaamAudio');
+let started=false;
 document.body.addEventListener('click',()=>{
-  if(!bgStarted){
-    bgAudio.volume=0.3;
-    bgAudio.play().catch(()=>{});
-    bgStarted=true;
+  if(!started){
+    aisanaamAudio.volume=0.3;
+    aisanaamAudio.play().catch(()=>{});
+    started=true;
   }
 });
-
-// Play Aisanaam audio
-const aisanaamAudio=document.getElementById('aisanaamAudio');
-function playAisanaam(){
-  aisanaamAudio.currentTime=0;
-  aisanaamAudio.play().catch(()=>{});
-}
 
 // Play Rakh Charna audio
 const rakhcharnaAudio=document.getElementById('rakhcharnaAudio');
@@ -238,7 +248,8 @@ function playRakhCharna(){
 
 // Volume control
 document.getElementById('volumeSlider').addEventListener('input',e=>{
-  bgAudio.volume=e.target.value;
+  aisanaamAudio.volume=e.target.value;
+  rakhcharnaAudio.volume=e.target.value;
 });
 </script>
 
