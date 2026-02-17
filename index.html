@@ -105,6 +105,9 @@ body::before{
   color:#f3d38f;
   font-size:18px;
   line-height:1.7;
+  width:100%;
+  max-width:100%;
+  word-wrap: break-word;
 }
 .tab-content.active{display:block}
 button{
@@ -128,6 +131,14 @@ h1{
 p{
   font-size:18px;
   margin-bottom:18px;
+}
+
+/* Responsive for mobile */
+@media (max-width:768px){
+  .card{padding:30px 20px;}
+  h1{font-size:36px;}
+  .tab-content{font-size:16px; line-height:1.6;}
+  .khanda{font-size:60px; margin-bottom:15px;}
 }
 </style>
 </head>
@@ -167,106 +178,6 @@ p{
 
   <div id="affirm" class="tab-content">
     <p>I am calm. I am ready. Waheguru walks beside me.<br>
-    I am prepared to face today with courage and joy.</p>
-  </div>
-
-  <div id="secret" class="tab-content">
-    <p id="secretText">Tap the Khanda…</p>
-  </div>
-</div>
-
-<!-- AUDIO FILES -->
-<audio id="aisanaam" loop>
-  <source src="./aisanaam.mp3">
-</audio>
-<audio id="rakhcharna">
-  <source src="./rakhcharna.mp3">
-</audio>
-
-<script>
-const aisanaam=document.getElementById("aisanaam");
-const rakh=document.getElementById("rakhcharna");
-let currentAudio=null;
-let userStarted=false;
-
-async function fadeOut(audio){
-  return new Promise(resolve=>{
-    let fade=setInterval(()=>{
-      if(audio.volume>0.05){
-        audio.volume-=0.05;
-      }else{
-        audio.pause();
-        clearInterval(fade);
-        resolve();
-      }
-    },80);
-  });
-}
-
-async function playAudio(audio){
-  if(currentAudio && currentAudio!==audio){
-    await fadeOut(currentAudio);
-  }
-  audio.currentTime=0;
-  audio.volume=0;
-  audio.play();
-  currentAudio=audio;
-
-  let fade=setInterval(()=>{
-    if(audio.volume<0.3) audio.volume+=0.02;
-    else clearInterval(fade);
-  },120);
-}
-
-function playRakh(event){
-  event.stopPropagation();
-  playAudio(rakh);
-  rakh.onended = ()=>playAudio(aisanaam);
-}
-
-/* start Aisa Naam on first click */
-document.body.addEventListener("click",()=>{
-  if(!userStarted){
-    playAudio(aisanaam);
-    userStarted=true;
-  }
-});
-
-/* TIME LOCK 3AM–6AM */
-const overlay=document.getElementById("timeOverlay");
-const content=document.getElementById("mainContent");
-
-function checkTime(){
-  const now = new Date();
-  const h = now.getHours();
-  if(h>=3 && h<6){
-    overlay.style.display="none";
-    content.style.display="block";
-    document.body.classList.add("awaken");
-  }else{
-    overlay.style.display="flex";
-    content.style.display="none";
-  }
-}
-setInterval(checkTime,60000);
-checkTime();
-
-/* tabs */
-document.querySelectorAll(".tab").forEach(tab=>{
-  tab.onclick=()=>{
-    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-    document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
-    tab.classList.add("active");
-    document.getElementById(tab.dataset.tab).classList.add("active");
-  }
-});
-
-/* Khanda click for secret blessing */
-document.getElementById("khanda").onclick=()=>{
-  document.getElementById("secretText").innerText=
-    "Someone believes in you with full faith and wanted to see you grow! Big Day coming up! Be prepared.";
-};
-</script>
-
-</body>
-</html>
+    I am prepared to face today with courage and joy.<br>
+    Each step I take brings me closer to success and growth.</p>
+  </div
