@@ -3,306 +3,368 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amrit Vela - Big Day Boost</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Amrit Vela Blessings</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+Gurmukhi:wght@500&display=swap" rel="stylesheet">
+
 <style>
-/* Reset & Body */
+
 body{
-  margin:0;
-  font-family:'Inter',sans-serif;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  cursor:pointer;
-  overflow:hidden;
-  color:#fff;
-  position:relative;
-  background: linear-gradient(160deg, #1a1a1a 0%, #000 100%);
+margin:0;
+font-family:'Inter',sans-serif;
+color:#fff;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+background:url("./eeman.jpeg") center/cover no-repeat fixed;
+transition:background 2s ease;
 }
 
-/* Sikhism-inspired background for Amrit Vela */
-body.active-background{
-  background: linear-gradient(160deg, #f7c873 0%, #d4af37 70%, #f3d38f 100%);
+/* Spiritual dark overlay */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.65);
+backdrop-filter:blur(6px);
+z-index:-1;
 }
 
-.overlay{
-  position:fixed;
-  inset:0;
-  background: rgba(0,0,0,0.15);
-  z-index:-1;
+/* Time Overlay */
+#timeOverlay{
+position:fixed;
+inset:0;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:30px;
+z-index:9999;
+font-family:'Noto Serif Gurmukhi', serif;
 }
 
-/* Card */
+.overlay-box{
+max-width:520px;
+line-height:1.7;
+color:#f3d38f;
+animation:fadeIn 2s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1;}
+}
+
+/* Main Card */
 .card{
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(18px);
-  border-radius:36px;
-  padding:50px 40px;
-  max-width:720px;
-  width:90%;
-  border:1px solid rgba(255,255,255,0.15);
-  box-shadow:0 20px 50px rgba(0,0,0,0.35);
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-  transition: box-shadow 0.5s ease, transform 0.5s ease;
+background:rgba(255,255,255,0.07);
+backdrop-filter:blur(20px);
+border-radius:30px;
+padding:45px;
+width:90%;
+max-width:720px;
+text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,0.5);
+position:relative;
+overflow:hidden;
 }
 
+/* Sunrise Glow */
+.card::before{
+content:"";
+position:absolute;
+inset:-50%;
+background:radial-gradient(circle, rgba(243,211,143,0.15), transparent 70%);
+opacity:0;
+transition:opacity 2s ease;
+pointer-events:none;
+}
+
+.card.awaken::before{
+opacity:1;
+}
+
+/* Khanda */
 .khanda{
-  font-size:70px;
-  color:#f3d38f;
-  text-shadow:0 0 12px #f3d38f,0 0 25px #d4af37;
-  animation:floatKhanda 4s ease-in-out infinite alternate;
-  margin-bottom:20px;
-  transition: transform 0.5s ease, text-shadow 0.5s ease;
-}
-@keyframes floatKhanda{
-  0%{transform:translateY(0);}
-  50%{transform:translateY(-15px);}
-  100%{transform:translateY(0);}
+font-size:70px;
+color:#f3d38f;
+animation:float 4s ease-in-out infinite;
+text-shadow:0 0 20px #f3d38f;
+margin-bottom:15px;
+opacity:0;
+transition:opacity 2s ease;
 }
 
-h1{font-family:'Cormorant Garamond',serif;font-size:42px;margin-bottom:8px;}
-.subtitle{font-size:16px;color:#f3d38f;margin-bottom:16px;letter-spacing:1px;text-transform:uppercase;}
-.highlight{font-weight:500;color:#f3d38f;font-size:20px;margin-bottom:16px;}
+.khanda.awaken{
+opacity:1;
+}
 
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-12px)}
+}
+
+/* Text */
+h1{
+font-family:'Noto Serif Gurmukhi', serif;
+font-size:38px;
+}
+
+.subtitle{
+color:#f3d38f;
+letter-spacing:2px;
+margin-bottom:15px;
+}
+
+.gurbani{
+color:#f3d38f;
+font-style:italic;
+margin-top:15px;
+opacity:0;
+transition:opacity 3s ease;
+}
+
+.gurbani.show{
+opacity:1;
+}
+
+/* Tabs */
 .tabs{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-top:20px;
-  flex-wrap:wrap;
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+margin-top:20px;
 }
+
 .tab{
-  padding:10px 24px;
-  border-radius:36px;
-  border:1px solid #f3d38f;
-  background:rgba(255,255,255,0.08);
-  color:#f3d38f;
-  cursor:pointer;
-  transition:0.3s ease;
+padding:10px 22px;
+border-radius:30px;
+border:1px solid #f3d38f;
+color:#f3d38f;
+cursor:pointer;
 }
-.tab:hover{background:#f3d38f;color:#111;}
-.tab.active{background:#f3d38f;color:#111;}
+
+.tab.active{
+background:#f3d38f;
+color:#111;
+}
 
 .tab-content{
-  display:none;
-  margin-top:20px;
-  color:#f3d38f;
-  line-height:1.6;
-  text-align:center;
+display:none;
+margin-top:20px;
+line-height:1.6;
+color:#f3d38f;
 }
-.tab-content.active{display:block;}
 
+.tab-content.active{
+display:block;
+}
+
+/* Button */
 button{
-  margin-top:15px;
-  padding:12px 28px;
-  border:none;
-  border-radius:30px;
-  background:linear-gradient(135deg,#d4af37,#b8964d);
-  color:#111;
-  font-weight:500;
-  cursor:pointer;
-  transition:0.3s ease;
-}
-button:hover{transform:translateY(-3px);}
-
-.volume-control{
-  margin-top:20px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-}
-input[type="range"]{width:150px;}
-
-/* Sparkle effect */
-.sparkle{
-  position:absolute;
-  width:6px;
-  height:6px;
-  background:rgba(243,211,143,0.8);
-  border-radius:50%;
-  pointer-events:none;
-  animation:fadeSpark 1.2s ease forwards;
-}
-@keyframes fadeSpark{
-  0%{opacity:1; transform:translateY(0) scale(1);}
-  100%{opacity:0; transform:translateY(-20px) scale(1.5);}
+margin-top:15px;
+padding:12px 30px;
+border:none;
+border-radius:30px;
+background:#d4af37;
+cursor:pointer;
+font-weight:500;
 }
 
-/* Full screen inactive overlay */
-#inactiveOverlay{
-  position:fixed;
-  inset:0;
-  background:#000; /* fully dark outside Amrit Vela */
-  color:#f3d38f;
-  font-size:22px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  z-index:9999;
-  padding:20px;
+/* Sparkles */
+.spark{
+position:absolute;
+width:6px;
+height:6px;
+background:#f3d38f;
+border-radius:50%;
+pointer-events:none;
+animation:spark 1s forwards;
 }
 
-/* Responsive */
-@media(max-width:768px){
-  h1{font-size:32px;}
-  .tabs{flex-direction:column; gap:8px;}
-  .khanda{font-size:55px;}
+@keyframes spark{
+0%{opacity:1; transform:translateY(0);}
+100%{opacity:0; transform:translateY(-30px);}
 }
+
+/* Volume */
+.volume-control{margin-top:20px;}
+input[type=range]{width:150px;}
+
 </style>
 </head>
+
 <body>
 
-<!-- Overlay for outside Amrit Vela -->
-<div id="inactiveOverlay">This page is active only during Amrit Vela (3:00 AM – 6:00 AM) as per D.</div>
+<!-- TIME LOCK -->
+<div id="timeOverlay">
+<div class="overlay-box">
+<p>
+This space awakens during Amrit Vela.<br><br>
 
-<div class="overlay"></div>
+From 3:00 AM to 6:00 AM —<br>
+a time meant for clarity, strength, and quiet reflection.<br><br>
 
-<div class="card" id="card">
-  <div class="khanda" id="khanda">☬</div>
-  <div class="highlight">Good Morning Eeman 🌸</div>
-  <h1>E To Be President</h1>
-  <div class="subtitle">Amrit Vela Blessings</div>
+It was created so you begin your big day with calmness,
+confidence,
+and faith in your journey.<br><br>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab active" data-tab="rakhcharna">Rakh Charna</div>
-    <div class="tab" data-tab="affirmations">Affirmations</div>
-    <div class="tab" data-tab="guidance">Guidance</div>
-    <div class="tab" data-tab="blessings">Blessings</div>
-  </div>
+Return during these sacred hours.<br><br>
 
-  <!-- Tab contents -->
-  <div id="rakhcharna" class="tab-content active">
-    <p>Focus on Rakh Charna for calmness and clarity.</p>
-    <button onclick="playRakhCharna()">Play Rakh Charna</button>
-  </div>
+With belief in you,<br>
+— From D.<br><br>
 
-  <div id="affirmations" class="tab-content">
-    <p>
-      I am calm and focused.<br>
-      I trust my preparation and abilities.<br>
-      Today, I will give my best effort.<br>
-      Waheguru guides every step.
-    </p>
-  </div>
-
-  <div id="guidance" class="tab-content">
-    <p>
-      Take deep breaths.<br>
-      Plan your day step by step.<br>
-      Stay present in the moment.<br>
-      Confidence and clarity come from patience and devotion.
-    </p>
-  </div>
-
-  <div id="blessings" class="tab-content">
-    <p>
-      May your mind be clear and heart calm.<br>
-      May Waheguru bless your efforts today.<br>
-      Your preparation is ready to shine.
-    </p>
-  </div>
-
-  <div class="volume-control">
-    <label>Audio Volume:</label>
-    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
-  </div>
+Waheguru walks beside those who walk with faith.
+</p>
+</div>
 </div>
 
-<!-- Audio -->
-<audio id="aisanaamAudio" preload="auto">
-  <source src="./aisanaam.mp3" type="audio/mpeg">
+<!-- MAIN CONTENT -->
+<div class="card" id="mainContent" style="display:none">
+
+<div class="khanda" id="khanda">☬</div>
+
+<h1>Good Morning Eeman</h1>
+<div class="subtitle">E To Be President</div>
+
+<div class="gurbani" id="gurbani">
+ਮਨ ਤੂੰ ਜੋਤਿ ਸਰੂਪੁ ਹੈ ਆਪਣਾ ਮੂਲੁ ਪਛਾਣੁ ॥
+</div>
+
+<div class="tabs">
+<div class="tab active" data-tab="rakh">Rakh Charna</div>
+<div class="tab" data-tab="affirm">Affirmations</div>
+<div class="tab" data-tab="bless">Blessings</div>
+</div>
+
+<div id="rakh" class="tab-content active">
+<p>Center your thoughts and walk with grace.</p>
+<button onclick="playRakh()">Play Rakh Charna</button>
+</div>
+
+<div id="affirm" class="tab-content">
+<p>
+I remain calm.<br>
+I trust myself.<br>
+I give my best today.<br>
+Waheguru walks with me.
+</p>
+</div>
+
+<div id="bless" class="tab-content">
+<p>
+May clarity guide you.<br>
+May peace protect you.<br>
+May your effort shine today.
+</p>
+</div>
+
+<div class="volume-control">
+<label>Volume</label>
+<input type="range" id="volume" min="0" max="1" step="0.01" value="0.3">
+</div>
+
+</div>
+
+<audio id="aisanaam" loop>
+<source src="./aisanaam.mp3" type="audio/mpeg">
 </audio>
-<audio id="rakhcharnaAudio" preload="auto">
-  <source src="./rakhcharna.mp3" type="audio/mpeg">
+
+<audio id="rakhcharna">
+<source src="./rakhcharna.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// Check Amrit Vela
-function checkAmritVela(){
-  const overlay = document.getElementById('inactiveOverlay');
-  const body = document.body;
-  const now = new Date();
-  const hours = now.getHours();
-  if(hours >= 3 && hours < 6){
-    overlay.style.display = 'none';
-    body.classList.add('active-background'); // Sikhism-inspired gradient
-  } else {
-    overlay.style.display = 'flex';
-    body.classList.remove('active-background');
-  }
-}
-checkAmritVela();
-setInterval(checkAmritVela,60000);
 
-// Tabs functionality with sparkle effect
-const tabs=document.querySelectorAll('.tab');
-const contents=document.querySelectorAll('.tab-content');
-const card = document.getElementById('card');
-const khanda = document.getElementById('khanda');
+const overlay=document.getElementById("timeOverlay");
+const content=document.getElementById("mainContent");
+const khanda=document.getElementById("khanda");
+const gurbani=document.getElementById("gurbani");
+const card=document.querySelector(".card");
 
-tabs.forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    tabs.forEach(t=>t.classList.remove('active'));
-    contents.forEach(c=>c.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById(tab.dataset.tab).classList.add('active');
+const aisanaam=document.getElementById("aisanaam");
+const rakh=document.getElementById("rakhcharna");
 
-    // Animate card and Khanda
-    card.style.transform = "scale(1.02)";
-    khanda.style.transform = "translateY(-10px) scale(1.05)";
-    setTimeout(()=>{
-      card.style.transform = "";
-      khanda.style.transform = "";
-    },500);
+/* TIME CONTROL */
 
-    // Subtle sparkles
-    for(let i=0;i<6;i++){
-      const spark=document.createElement('div');
-      spark.classList.add('sparkle');
-      spark.style.left = Math.random()*card.offsetWidth + "px";
-      spark.style.top = Math.random()*card.offsetHeight + "px";
-      card.appendChild(spark);
-      setTimeout(()=>spark.remove(),1200);
-    }
-  });
-});
+function checkTime(){
+let hour=new Date().getHours();
 
-// Play Aisanaam automatically on first click
-const aisanaamAudio=document.getElementById('aisanaamAudio');
-let started=false;
-document.body.addEventListener('click',()=>{
-  if(!started && document.getElementById('inactiveOverlay').style.display==='none'){
-    aisanaamAudio.volume=0.3;
-    aisanaamAudio.play().catch(()=>{});
-    started=true;
-  }
-});
+if(hour>=3 && hour<6){
 
-// Play Rakh Charna and mute Aisanaam
-const rakhcharnaAudio=document.getElementById('rakhcharnaAudio');
-function playRakhCharna(){
-  aisanaamAudio.volume = 0;
-  rakhcharnaAudio.currentTime=0;
-  rakhcharnaAudio.play().catch(()=>{});
-  rakhcharnaAudio.onended = ()=>{
-    aisanaamAudio.volume = document.getElementById('volumeSlider').value;
-  };
+overlay.style.display="none";
+content.style.display="block";
+
+card.classList.add("awaken");
+khanda.classList.add("awaken");
+
+setTimeout(()=>gurbani.classList.add("show"),2000);
+
+attemptAutoPlay();
+
+}else{
+overlay.style.display="flex";
+content.style.display="none";
 }
 
-// Volume control
-document.getElementById('volumeSlider').addEventListener('input',e=>{
-  if(!rakhcharnaAudio.paused){
-    rakhcharnaAudio.volume = e.target.value;
-  } else {
-    aisanaamAudio.volume = e.target.value;
-  }
+}
+
+setInterval(checkTime,60000);
+checkTime();
+
+/* AUDIO */
+
+function attemptAutoPlay(){
+aisanaam.volume=0.3;
+aisanaam.play().catch(()=>{
+document.body.addEventListener("click",()=>{
+aisanaam.play();
+},{once:true});
 });
+}
+
+function playRakh(){
+aisanaam.pause();
+rakh.currentTime=0;
+rakh.volume=document.getElementById("volume").value;
+rakh.play();
+
+rakh.onended=()=> aisanaam.play();
+}
+
+/* Volume */
+document.getElementById("volume").addEventListener("input",e=>{
+aisanaam.volume=e.target.value;
+rakh.volume=e.target.value;
+});
+
+/* Tabs + Sparkles */
+document.querySelectorAll(".tab").forEach(tab=>{
+tab.addEventListener("click",()=>{
+
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
+
+tab.classList.add("active");
+document.getElementById(tab.dataset.tab).classList.add("active");
+
+for(let i=0;i<6;i++){
+let s=document.createElement("div");
+s.className="spark";
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+card.appendChild(s);
+setTimeout(()=>s.remove(),1000);
+}
+
+});
+});
+
 </script>
+
 </body>
 </html>
