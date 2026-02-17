@@ -19,9 +19,9 @@ justify-content:center;
 align-items:center;
 overflow:hidden;
 background:url("./eeman.jpeg") center/cover no-repeat fixed;
+transition:background 4s ease;
 }
 
-/* Spiritual overlay */
 body::before{
 content:"";
 position:fixed;
@@ -31,7 +31,12 @@ backdrop-filter:blur(6px);
 z-index:-1;
 }
 
-/* Time Overlay */
+body.awaken{
+background:linear-gradient(rgba(0,0,0,.5), rgba(243,211,143,.15)),
+url("./eeman.jpeg") center/cover no-repeat fixed;
+}
+
+/* Overlay */
 #timeOverlay{
 position:fixed;
 inset:0;
@@ -42,15 +47,10 @@ align-items:center;
 text-align:center;
 padding:30px;
 z-index:9999;
-font-family:'Noto Serif Gurmukhi', serif;
 color:#f3d38f;
+font-family:'Noto Serif Gurmukhi';
+font-size:20px;
 line-height:1.7;
-animation:fadeIn 2s ease;
-}
-
-@keyframes fadeIn{
-from{opacity:0}
-to{opacity:1}
 }
 
 /* Card */
@@ -67,56 +67,20 @@ position:relative;
 overflow:hidden;
 }
 
-/* Warm Aura */
-.card::before{
-content:"";
-position:absolute;
-inset:-40%;
-background:radial-gradient(circle, rgba(243,211,143,0.18), transparent 70%);
-animation:pulseAura 6s infinite ease-in-out;
-pointer-events:none;
-}
-
-@keyframes pulseAura{
-0%,100%{opacity:.4}
-50%{opacity:.7}
-}
-
 /* Khanda */
 .khanda{
 font-size:70px;
 color:#f3d38f;
-text-shadow:0 0 25px #f3d38f;
+text-shadow:0 0 30px #f3d38f;
 animation:float 4s infinite ease-in-out;
+cursor:pointer;
+position:relative;
 }
 
 @keyframes float{
 0%,100%{transform:translateY(0)}
 50%{transform:translateY(-12px)}
 }
-
-/* Text */
-h1{
-font-family:'Noto Serif Gurmukhi', serif;
-font-size:38px;
-margin-bottom:6px;
-}
-
-.subtitle{
-color:#f3d38f;
-font-style:italic;
-opacity:.9;
-}
-
-/* Gurbani */
-.gurbani{
-margin-top:18px;
-color:#f3d38f;
-opacity:0;
-transition:opacity 3s ease;
-}
-
-.gurbani.show{opacity:1}
 
 /* Tabs */
 .tabs{
@@ -133,7 +97,6 @@ border-radius:30px;
 border:1px solid #f3d38f;
 color:#f3d38f;
 cursor:pointer;
-transition:.3s;
 }
 
 .tab.active{
@@ -141,58 +104,39 @@ background:#f3d38f;
 color:#111;
 }
 
-/* Tab Content */
 .tab-content{
 display:none;
 margin-top:20px;
-line-height:1.6;
 color:#f3d38f;
 }
 
 .tab-content.active{display:block}
 
-/* Button */
 button{
-margin-top:15px;
-padding:12px 30px;
+padding:12px 22px;
 border:none;
-border-radius:30px;
-background:#d4af37;
-cursor:pointer;
-}
-
-/* Blessing Particles */
-.spark{
-position:absolute;
-width:6px;
-height:6px;
+border-radius:20px;
 background:#f3d38f;
-border-radius:50%;
-animation:spark 1s forwards;
+cursor:pointer;
+font-weight:500;
 }
-
-@keyframes spark{
-0%{opacity:1; transform:translateY(0)}
-100%{opacity:0; transform:translateY(-25px)}
-}
-
-.volume-control{margin-top:20px;}
-input[type=range]{width:150px;}
 
 </style>
 </head>
 
 <body>
 
+<!-- TIME OVERLAY WITH FULL MESSAGE -->
 <div id="timeOverlay">
 <div>
+
 This space awakens during Amrit Vela.<br><br>
 
-From 3:00 AM to 6:00 AM 
+From 3:00 AM to 6:00 AM —<br>
 a time meant for clarity, strength, and quiet reflection.<br><br>
 
-It was created so you begin your big day with calmness,
-confidence,
+It was created so you begin your big day with calmness,<br>
+confidence,<br>
 and faith in your journey.<br><br>
 
 Return during these sacred hours.<br><br>
@@ -201,55 +145,39 @@ With belief in you,<br>
 — From D.<br><br>
 
 Waheguru walks beside those who walk with faith.
+
 </div>
 </div>
 
+<!-- MAIN CONTENT -->
 <div class="card" id="mainContent" style="display:none">
 
-<div class="khanda">☬</div>
+<div class="khanda" id="khanda">☬</div>
 
 <h1>Good Morning Eeman</h1>
-<div class="subtitle">Made with quiet prayers for your big day</div>
-
-<div class="gurbani" id="gurbani">
-ਮਨ ਤੂੰ ਜੋਤਿ ਸਰੂਪੁ ਹੈ ਆਪਣਾ ਮੂਲੁ ਪਛਾਣੁ ॥
-</div>
+<p>Created quietly for your big day</p>
 
 <div class="tabs">
 <div class="tab active" data-tab="rakh">Rakh Charna</div>
 <div class="tab" data-tab="affirm">Affirmations</div>
-<div class="tab" data-tab="bless">Blessings</div>
+<div class="tab" data-tab="secret">Secret Blessing</div>
 </div>
 
 <div id="rakh" class="tab-content active">
-<p>Let calmness lead your steps today.</p>
 <button onclick="playRakh()">Play Rakh Charna</button>
 </div>
 
 <div id="affirm" class="tab-content">
-<p>
-I am calm.<br>
-I am prepared.<br>
-I trust my journey.<br>
-Waheguru walks beside me.
-</p>
+<p>I am calm. I am ready. Waheguru walks beside me.</p>
 </div>
 
-<div id="bless" class="tab-content">
-<p>
-May peace hold your heart.<br>
-May clarity guide your thoughts.<br>
-May confidence follow your effort.
-</p>
-</div>
-
-<div class="volume-control">
-<label>Volume</label>
-<input type="range" id="volume" min="0" max="1" step="0.01" value="0.3">
+<div id="secret" class="tab-content">
+<p id="secretText">Tap the Khanda…</p>
 </div>
 
 </div>
 
+<!-- AUDIO -->
 <audio id="aisanaam" loop>
 <source src="./aisanaam.mp3">
 </audio>
@@ -260,13 +188,14 @@ May confidence follow your effort.
 
 <script>
 
-/* AUDIO CONTROLLER (NO CLASH GUARANTEED) */
-
 const aisanaam=document.getElementById("aisanaam");
 const rakh=document.getElementById("rakhcharna");
-let currentAudio=null;
 
-function fadeOut(audio){
+let currentAudio=null;
+let userStarted=false;
+
+/* Fade Out */
+async function fadeOut(audio){
 return new Promise(resolve=>{
 let fade=setInterval(()=>{
 if(audio.volume>0.05){
@@ -276,18 +205,24 @@ audio.pause();
 clearInterval(fade);
 resolve();
 }
-},100);
+},80);
 });
 }
 
+/* Play Audio */
 async function playAudio(audio){
 if(currentAudio && currentAudio!==audio){
 await fadeOut(currentAudio);
 }
-audio.volume=document.getElementById("volume").value;
-audio.currentTime=0;
+audio.volume=0;
 audio.play();
 currentAudio=audio;
+
+let fade=setInterval(()=>{
+if(audio.volume<0.3){
+audio.volume+=0.02;
+}else clearInterval(fade);
+},120);
 }
 
 /* Rakh Charna */
@@ -296,23 +231,17 @@ playAudio(rakh);
 rakh.onended=()=> playAudio(aisanaam);
 }
 
-/* Attempt autoplay */
-function attemptAutoPlay(){
-playAudio(aisanaam).catch(()=>{
-document.body.addEventListener("click",()=> playAudio(aisanaam),{once:true});
-});
+/* First Click Starts Background Audio */
+document.body.addEventListener("click",()=>{
+if(!userStarted){
+playAudio(aisanaam);
+userStarted=true;
 }
-
-/* Volume */
-document.getElementById("volume").addEventListener("input",e=>{
-if(currentAudio) currentAudio.volume=e.target.value;
 });
 
 /* TIME LOCK */
-
 const overlay=document.getElementById("timeOverlay");
 const content=document.getElementById("mainContent");
-const gurbani=document.getElementById("gurbani");
 
 function checkTime(){
 let h=new Date().getHours();
@@ -320,8 +249,7 @@ let h=new Date().getHours();
 if(h>=3 && h<6){
 overlay.style.display="none";
 content.style.display="block";
-setTimeout(()=> gurbani.classList.add("show"),1500);
-attemptAutoPlay();
+document.body.classList.add("awaken");
 }else{
 overlay.style.display="flex";
 content.style.display="none";
@@ -331,9 +259,7 @@ content.style.display="none";
 setInterval(checkTime,60000);
 checkTime();
 
-/* Tabs + particles */
-const card=document.querySelector(".card");
-
+/* Tabs */
 document.querySelectorAll(".tab").forEach(tab=>{
 tab.onclick=()=>{
 document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
@@ -341,17 +267,14 @@ document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"
 
 tab.classList.add("active");
 document.getElementById(tab.dataset.tab).classList.add("active");
-
-for(let i=0;i<5;i++){
-let s=document.createElement("div");
-s.className="spark";
-s.style.left=Math.random()*100+"%";
-s.style.top=Math.random()*100+"%";
-card.appendChild(s);
-setTimeout(()=>s.remove(),1000);
-}
 }
 });
+
+/* Secret Blessing */
+document.getElementById("khanda").onclick=()=>{
+document.getElementById("secretText").innerText =
+"Someone believes you will do something truly special today.";
+};
 
 </script>
 
