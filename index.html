@@ -4,274 +4,133 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Amrit Vela Blessings</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+Gurmukhi:wght@500&display=swap" rel="stylesheet">
-
 <style>
-
 body{
-margin:0;
-font-family:'Inter',sans-serif;
-color:#fff;
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-
-/* FULL IMAGE VISIBILITY */
-background:url("./eeman.jpeg") center/contain no-repeat fixed;
-background-color:black;
-transition:background 4s ease;
+  margin:0;
+  font-family:'Inter',sans-serif;
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  /* FULL EDGE TO EDGE IMAGE */
+  background:url("./eeman.jpeg") center/100% 100% no-repeat fixed;
 }
 
-/* Softer overlay so image visible */
 body::before{
-content:"";
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.45);
-backdrop-filter:blur(3px);
-z-index:-1;
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.3); /* slightly dark so content visible */
+  z-index:-1;
 }
 
-body.awaken{
-background:linear-gradient(rgba(0,0,0,.35), rgba(243,211,143,.12)),
-url("./eeman.jpeg") center/contain no-repeat fixed;
-}
-
-/* Overlay */
+/* Overlay for time-lock */
 #timeOverlay{
-position:fixed;
-inset:0;
-background:#000;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:30px;
-z-index:9999;
-color:#f3d38f;
-font-family:'Noto Serif Gurmukhi';
-font-size:20px;
-line-height:1.7;
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:30px;
+  z-index:9999;
+  color:#f3d38f;
+  font-family:'Noto Serif Gurmukhi';
+  font-size:20px;
+  line-height:1.7;
 }
 
 /* Card */
 .card{
-background:rgba(255,255,255,0.07);
-backdrop-filter:blur(20px);
-border-radius:30px;
-padding:45px;
-width:90%;
-max-width:720px;
-text-align:center;
-box-shadow:0 20px 60px rgba(0,0,0,0.5);
-position:relative;
-overflow:hidden;
+  background:rgba(255,255,255,0.07);
+  backdrop-filter:blur(20px);
+  border-radius:30px;
+  padding:45px;
+  width:90%;
+  max-width:720px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  position:relative;
+  overflow:hidden;
 }
 
 /* Khanda */
 .khanda{
-font-size:70px;
-color:#f3d38f;
-text-shadow:0 0 30px #f3d38f;
-animation:float 4s infinite ease-in-out;
-cursor:pointer;
+  font-size:70px;
+  color:#f3d38f;
+  text-shadow:0 0 30px #f3d38f;
+  animation:float 4s infinite ease-in-out;
+  cursor:pointer;
 }
-
 @keyframes float{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(-12px)}
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
 }
 
 /* Tabs */
 .tabs{
-display:flex;
-justify-content:center;
-gap:12px;
-flex-wrap:wrap;
-margin-top:20px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:20px;
 }
 
 .tab{
-padding:10px 22px;
-border-radius:30px;
-border:1px solid #f3d38f;
-color:#f3d38f;
-cursor:pointer;
+  padding:10px 22px;
+  border-radius:30px;
+  border:1px solid #f3d38f;
+  color:#f3d38f;
+  cursor:pointer;
 }
-
 .tab.active{
-background:#f3d38f;
-color:#111;
+  background:#f3d38f;
+  color:#111;
 }
-
 .tab-content{
-display:none;
-margin-top:20px;
-color:#f3d38f;
+  display:none;
+  margin-top:20px;
+  color:#f3d38f;
 }
-
 .tab-content.active{display:block}
 
 button{
-padding:12px 22px;
-border:none;
-border-radius:20px;
-background:#f3d38f;
-cursor:pointer;
-font-weight:500;
+  padding:12px 22px;
+  border:none;
+  border-radius:20px;
+  background:#f3d38f;
+  cursor:pointer;
+  font-weight:500;
 }
-
 </style>
 </head>
-
 <body>
 
+<!-- TIME LOCK OVERLAY -->
 <div id="timeOverlay">
-<div>
-This space awakens during Amrit Vela.<br><br>
-From 3:00 AM to 6:00 AM <br>
-a time meant for clarity, strength, and quiet reflection.<br><br>
-It was created so you begin your big day with calmness,<br>
-confidence,<br>
-and faith in your journey.<br><br>
-Return during these sacred hours.<br><br>
-With belief in you,<br>
-— From D.<br><br>
-Waheguru walks beside those who walk with faith.
-</div>
+  <div>
+    This space awakens during Amrit Vela.<br><br>
+    From 3:00 AM to 6:00 AM <br>
+    a time meant for clarity, strength, and quiet reflection.<br><br>
+    It was created so you begin your big day with calmness,<br>
+    confidence,<br>
+    and faith in your journey.<br><br>
+    Return during these sacred hours.<br><br>
+    With belief in you,<br>
+    — From D.<br><br>
+    Waheguru walks beside those who walk with faith.
+  </div>
 </div>
 
+<!-- MAIN CARD -->
 <div class="card" id="mainContent" style="display:none">
+  <div class="khanda" id="khanda">☬</div>
+  <h1>Good Morning Eeman</h1>
+  <p>Created quietly for your big day</p>
 
-<div class="khanda" id="khanda">☬</div>
-
-<h1>Good Morning Eeman</h1>
-<p>Created quietly for your big day</p>
-
-<div class="tabs">
-<div class="tab active" data-tab="rakh">Rakh Charna</div>
-<div class="tab" data-tab="affirm">Affirmations</div>
-<div class="tab" data-tab="secret">Secret Blessing</div>
-</div>
-
-<div id="rakh" class="tab-content active">
-<button onclick="playRakh()">Play Rakh Charna</button>
-</div>
-
-<div id="affirm" class="tab-content">
-<p>I am calm. I am ready. Waheguru walks beside me.</p>
-</div>
-
-<div id="secret" class="tab-content">
-<p id="secretText">Tap the Khanda…</p>
-</div>
-
-</div>
-
-<audio id="aisanaam" loop>
-<source src="./aisanaam.mp3">
-</audio>
-
-<audio id="rakhcharna">
-<source src="./rakhcharna.mp3">
-</audio>
-
-<script>
-
-const aisanaam=document.getElementById("aisanaam");
-const rakh=document.getElementById("rakhcharna");
-
-let currentAudio=null;
-let userStarted=false;
-
-async function fadeOut(audio){
-return new Promise(resolve=>{
-let fade=setInterval(()=>{
-if(audio.volume>0.05){
-audio.volume-=0.05;
-}else{
-audio.pause();
-clearInterval(fade);
-resolve();
-}
-},80);
-});
-}
-
-async function playAudio(audio){
-
-if(currentAudio && currentAudio!==audio){
-await fadeOut(currentAudio);
-}
-
-audio.currentTime = 0;
-audio.volume = 0;
-audio.play();
-
-currentAudio = audio;
-
-let fade=setInterval(()=>{
-if(audio.volume<0.3){
-audio.volume+=0.02;
-}else clearInterval(fade);
-},120);
-}
-
-/* Rakh Charna FIXED */
-function playRakh(event){
-
-event.stopPropagation(); // prevents body click conflict
-playAudio(rakh);
-
-rakh.onended = () => playAudio(aisanaam);
-}
-
-/* Background Audio */
-document.body.addEventListener("click",()=>{
-if(!userStarted){
-playAudio(aisanaam);
-userStarted=true;
-}
-});
-
-const overlay=document.getElementById("timeOverlay");
-const content=document.getElementById("mainContent");
-
-function checkTime(){
-let h=new Date().getHours();
-
-if(h>=3 && h<6){
-overlay.style.display="none";
-content.style.display="block";
-document.body.classList.add("awaken");
-}else{
-overlay.style.display="flex";
-content.style.display="none";
-}
-}
-
-setInterval(checkTime,60000);
-checkTime();
-
-document.querySelectorAll(".tab").forEach(tab=>{
-tab.onclick=()=>{
-document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
-
-tab.classList.add("active");
-document.getElementById(tab.dataset.tab).classList.add("active");
-}
-});
-
-document.getElementById("khanda").onclick=()=>{
-document.getElementById("secretText").innerText =
-"Someone believes in you with full faith and wanted to see you grow! Big Day coming up! Be prepared.";
-};
-
-</script>
-
-</body>
-</html>
+  <div class="tabs">
+    <div class="tab active" data-tab="rakh">Rakh Charna</div>
