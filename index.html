@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grace & Leadership</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  overflow:hidden;
+  background:#000;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* Background Image */
+.bg-image{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 35%;
+  z-index:-3;
+  transform-origin:center;
+  animation:zoomBg 50s ease-in-out infinite alternate;
+}
+@keyframes zoomBg{0%{transform:scale(1);}100%{transform:scale(1.05);}}
+
+/* Overlay */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:-2;}
+
+/* Golden Rays behind card */
+.rays{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle, rgba(243,211,143,0.15) 0%, transparent 70%);
+  z-index:-1;
+  animation:rayPulse 6s ease-in-out infinite alternate;
+}
+@keyframes rayPulse{0%{opacity:0.15;}50%{opacity:0.3;}100%{opacity:0.15;}}
+
+/* Card */
+.card{
+  position:relative;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(22px);
+  border-radius:36px;
+  padding:50px 60px;
+  max-width:780px;
+  width:90%;
+  border:2px solid rgba(255,255,255,0.2);
+  box-shadow:0 35px 90px rgba(0,0,0,0.55);
+  animation:fadeUp .9s ease both, cardPulse 4s ease-in-out infinite alternate, floatCard 6s ease-in-out infinite alternate;
+}
+
+/* Card glow and shimmer */
+.card::before{
+  content:"";
+  position:absolute;
+  top:-12px; left:-12px; right:-12px; bottom:-12px;
+  background:linear-gradient(45deg,#f3d38f,#d4af37,#e0c27a,#f3d38f);
+  border-radius:40px;
+  filter:blur(50px);
+  opacity:0.3;
+  z-index:-1;
+  animation:glow 12s linear infinite;
+}
+@keyframes glow{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+
+/* Card pulse */
+@keyframes cardPulse{
+  0%{border-color:rgba(243,211,143,0.2); box-shadow:0 35px 90px rgba(0,0,0,0.55);}
+  50%{border-color:rgba(243,211,143,0.45); box-shadow:0 35px 120px rgba(243,211,143,0.25);}
+  100%{border-color:rgba(243,211,143,0.2); box-shadow:0 35px 90px rgba(0,0,0,0.55);}
+}
+
+/* Floating card */
+@keyframes floatCard{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
+
+h1{font-family:'Cormorant Garamond',serif;font-size:46px;letter-spacing:.5px;}
+.subtitle{margin-top:8px;letter-spacing:3px;color:#e0c27a;font-size:12px;text-transform:uppercase;}
+.gold-line{width:120px;height:2px;background:linear-gradient(90deg,transparent,#e0c27a,transparent);margin:24px auto 4px;}
+p{margin-top:16px;line-height:1.7;font-weight:300;}
+.highlight{font-weight:500;color:#f3d38f;}
+
+/* Gurbani glow */
+.gurbani-quote{
+  font-style:italic;
+  color:#f3d38f;
+  margin-top:18px;
+  text-shadow:0 0 5px #f3d38f,0 0 15px #d4af37;
+  animation:fadeInOut 6s infinite;
+}
+
+/* Khandas */
+.khanda{
+  position:absolute;
+  font-size:48px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#f3d38f;
+  text-shadow:0 0 10px #f3d38f,0 0 20px #f3d38f;
+  animation:khandaPulse 3s ease-in-out infinite alternate;
+}
+.khanda-left{left:-70px;}
+.khanda-right{right:-70px;}
+@keyframes khandaPulse{0%,100%{transform:translateY(-50%) scale(1);}50%{transform:translateY(-50%) scale(1.15);}}
+
+/* Buttons */
+button{
+  margin-top:24px;
+  padding:14px 36px;
+  border:none;
+  border-radius:40px;
+  background:linear-gradient(135deg,#d4af37,#b8964d);
+  color:#111;font-weight:500;
+  cursor:pointer;transition:.35s ease;
+  box-shadow:0 6px 20px rgba(212,175,55,.3);
+}
+button:hover{
+  transform:translateY(-4px);
+  box-shadow:0 15px 35px rgba(212,175,55,.6);
+}
+.secondary{
+  background:transparent;color:#f3d38f;border:1px solid #d4af37;margin-left:12px;
+}
+.secondary:hover{background:#d4af37;color:#111;}
+.hidden{display:none;margin-top:16px;}
+
+.volume-control{
+  margin-top:20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+}
+input[type="range"]{width:150px;}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeInOut{0%,100%{opacity:0;}10%,90%{opacity:1;}}
+
+@media (max-width:768px){
+  .bg-image{object-position:center 40%;}
+  h1{font-size:36px;}
+  .khanda{font-size:36px;left:auto;right:auto;top:10px;transform:none;}
+  .khanda-left{display:none;}
+  .khanda-right{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<img src="./eeman.jpeg" class="bg-image" alt="Background">
+<div class="overlay"></div>
+<div class="rays"></div>
+
+<!-- Floating particles -->
+<div id="particles"></div>
+
+<!-- Audio -->
+<audio id="aisanaamAudio" loop preload="auto">
+  <source src="./aisanaam.mp3" type="audio/mpeg">
+</audio>
+<audio id="rakhcharnaAudio" loop preload="auto">
+  <source src="./rakhcharna.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <!-- Khandas -->
+  <div class="khanda khanda-left">☬</div>
+  <div class="khanda khanda-right">☬</div>
+
+  <h1>Grace in Leadership</h1>
+  <div class="subtitle">Strength • Seva • Vision</div>
+  <div class="gold-line"></div>
+
+  <p class="highlight">Eeman for President</p>
+
+  <!-- Gurbani line -->
+  <p id="gurbaniQuote" class="gurbani-quote">
+    ਮਨ ਤੂੰ ਜੋਤਿ ਸਰੂਪੁ ਹੈ ਆਪਣਾ ਮੂਲੁ ਪਛਾਣੁ ॥
+  </p>
+
+  <button onclick="playRakhCharna()">Rakh Charna de Naal</button>
+  <button class="secondary" onclick="showAffirmation()">Affirm My Purpose</button>
+
+  <div id="affirmation" class="hidden">
+    <p>
+      I lead with clarity.<br>
+      I serve with humility.<br>
+      I walk with grace.<br><br>
+      Waheguru guides every step.
+    </p>
+  </div>
+
+  <div class="volume-control">
+    <label>Background Volume:</label>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
+  </div>
+</div>
+
+<script>
+/* Floating particles */
+const particlesContainer = document.getElementById("particles");
+const totalParticles = 60;
+for(let i=0;i<totalParticles;i++){
+  const p = document.createElement("div");
+  p.classList.add("particle");
+  p.style.left = Math.random()*100 + "vw";
+  const size = Math.random()*3+2;
+  p.style.width = size + "px";
+  p.style.height = size + "px";
+  p.style.background = `rgba(243,211,143,${Math.random()*0.5 + 0.3})`;
+  p.style.animationDuration = (Math.random()*25+15) + "s";
+  p.style.animationDelay = (Math.random()*15) + "s";
+  particlesContainer.appendChild(p);
+}
+
+/* Audio */
+const aisanaam = document.getElementById("aisanaamAudio");
+const rakhcharna = document.getElementById("rakhcharnaAudio");
+let audioStarted = false;
+document.body.addEventListener("click", () => {
+  if(!audioStarted){
+    aisanaam.volume = 0.3;
+    aisanaam.play().catch(()=>{});
+    audioStarted = true;
+  }
+});
+function playRakhCharna(){ rakhcharna.volume = 0.3; rakhcharna.play().catch(()=>{}); }
+function showAffirmation(){ document.getElementById("affirmation").classList.remove("hidden"); }
+
+/* Volume control */
+const volumeSlider = document.getElementById("volumeSlider");
+volumeSlider.addEventListener("input", () => { aisanaam.volume = volumeSlider.value; });
+</script>
+</body>
+</html>
