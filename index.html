@@ -3,206 +3,317 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amrit Vela - D2E </title>
+<title>Amrit Vela - D2E</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+Gurmukhi:wght@500&display=swap" rel="stylesheet">
+
 <style>
+
+/* ---------- BODY ---------- */
+
 body{
   margin:0;
   font-family:'Inter',sans-serif;
-  color:#fff;
+  color:white;
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
   overflow:hidden;
   background:url("./eeman.jpeg") center/cover no-repeat fixed;
-  animation:zoomBg 50s ease-in-out infinite alternate;
+  animation:zoomBg 40s ease-in-out infinite alternate;
 }
+
 @keyframes zoomBg{
-  0%{transform:scale(1);}
-  100%{transform:scale(1.05);}
+  from{transform:scale(1);}
+  to{transform:scale(1.06);}
 }
+
+/* Sunrise unlock glow */
+body.awaken::before{
+  animation:sunrise 3s ease forwards;
+}
+
+@keyframes sunrise{
+  from{background:rgba(0,0,0,0.8);}
+  to{background:rgba(0,0,0,0.5);}
+}
+
 body::before{
   content:"";
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.55);
-  backdrop-filter:blur(6px);
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(7px);
   z-index:-1;
 }
 
-/* Time overlay fully black */
+
+/* ---------- PARTICLES ---------- */
+
+.particles{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+
+.particle{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:#f3d38f;
+  border-radius:50%;
+  opacity:0.25;
+  animation:floatParticle 12s linear infinite;
+}
+
+@keyframes floatParticle{
+  from{
+    transform:translateY(100vh);
+    opacity:0;
+  }
+  50%{opacity:0.3;}
+  to{
+    transform:translateY(-10vh);
+    opacity:0;
+  }
+}
+
+
+/* ---------- LOCK SCREEN ---------- */
+
 #timeOverlay{
   position:fixed;
   inset:0;
-  background:#000;
+  background:radial-gradient(circle at center, #111 0%, #000 70%);
   display:flex;
+  flex-direction:column;
   justify-content:center;
   align-items:center;
   text-align:center;
-  padding:30px;
   z-index:9999;
-  color:#f3d38f;
-  font-family:'Noto Serif Gurmukhi';
-  font-size:22px;
-  line-height:1.8;
-  font-weight:500;
+  transition:opacity 1.2s ease;
 }
 
-/* Main card */
+.clock{
+  font-size:70px;
+  color:#f3d38f;
+  letter-spacing:3px;
+}
+
+.lockHint{
+  margin-top:25px;
+  font-size:14px;
+  opacity:0.6;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  50%{opacity:0.2;}
+}
+
+
+/* ---------- CARD ---------- */
+
 .card{
-  background:rgba(255,255,255,0.07);
-  backdrop-filter:blur(20px);
-  border-radius:30px;
-  padding:50px 40px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(25px);
+  border-radius:35px;
+  padding:55px 40px;
   width:90%;
-  max-width:720px;
+  max-width:700px;
   text-align:center;
-  box-shadow:0 25px 80px rgba(0,0,0,0.5);
-  position:relative;
-  overflow:hidden;
+  box-shadow:0 25px 80px rgba(0,0,0,0.6);
+  animation:fadeIn 1.5s ease;
 }
 
-/* Khanda floating */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(30px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+
+/* ---------- KHANDA ---------- */
+
 .khanda{
-  font-size:80px;
+  font-size:85px;
   color:#f3d38f;
-  text-shadow:0 0 30px #f3d38f;
-  animation:float 4s infinite ease-in-out;
+  margin-bottom:18px;
+  text-shadow:0 0 25px rgba(243,211,143,0.7);
   cursor:pointer;
-  margin-bottom:20px;
-}
-@keyframes float{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-15px);}
+  position:relative;
 }
 
-/* Tabs */
+/* Ripple aura */
+.khanda::after{
+  content:"";
+  position:absolute;
+  inset:-20px;
+  border-radius:50%;
+  border:2px solid rgba(243,211,143,0.2);
+  animation:ripple 3s infinite;
+}
+
+@keyframes ripple{
+  from{transform:scale(0.8); opacity:0.4;}
+  to{transform:scale(1.6); opacity:0;}
+}
+
+
+/* ---------- TABS ---------- */
+
 .tabs{
   display:flex;
   justify-content:center;
-  gap:14px;
-  flex-wrap:wrap;
+  gap:12px;
   margin-top:30px;
+  flex-wrap:wrap;
 }
+
 .tab{
-  padding:12px 26px;
-  border-radius:30px;
+  padding:11px 26px;
+  border-radius:25px;
   border:1px solid #f3d38f;
   color:#f3d38f;
   cursor:pointer;
-  font-weight:500;
-  transition:0.3s;
+  transition:0.35s;
 }
-.tab:hover{background:rgba(243,211,143,0.2);}
+
 .tab.active{
   background:#f3d38f;
   color:#111;
+  box-shadow:0 0 15px rgba(243,211,143,0.4);
 }
+
 .tab-content{
   display:none;
   margin-top:25px;
-  color:#f3d38f;
-  font-size:18px;
   line-height:1.7;
-  width:100%;
-  max-width:100%;
-  word-wrap: break-word;
+  font-size:18px;
 }
-.tab-content.active{display:block}
+
+.tab-content.active{
+  display:block;
+}
+
+
+/* ---------- BUTTON ---------- */
+
 button{
-  padding:12px 28px;
+  padding:12px 30px;
   border:none;
   border-radius:22px;
   background:#f3d38f;
-  cursor:pointer;
   font-weight:500;
-  margin-top:12px;
+  cursor:pointer;
+  transition:0.3s;
 }
+
 button:hover{
   background:#d4af37;
+  transform:scale(1.05);
 }
 
-/* motivational text emphasis */
-h1{
-  font-size:42px;
-  margin-bottom:6px;
-}
-p{
-  font-size:18px;
-  margin-bottom:18px;
-}
-
-/* Responsive for mobile */
-@media (max-width:768px){
-  .card{padding:30px 20px;}
-  h1{font-size:36px;}
-  .tab-content{font-size:16px; line-height:1.6;}
-  .khanda{font-size:60px; margin-bottom:15px;}
-}
 </style>
 </head>
 <body>
 
-<!-- TIME LOCK OVERLAY -->
+
+<div class="particles" id="particles"></div>
+
+
+<!-- LOCK SCREEN -->
 <div id="timeOverlay">
-  <div>
-    This space awakens during Amrit Vela <br><br>
-    From 3:00 AM to 6:00 AM<br>
-    A sacred window for clarity, courage, and inner strength.<br><br>
-    Designed to boost you for your big day,<br>
-    fill your heart with confidence,<br>
-    and guide your steps with faith.<br><br>
-    Come back during these hours and feel ready.<br><br>
-    With belief in you,<br>
-    — From D.<br><br>
-    Waheguru walks beside those who walk with faith.
-  </div>
+<div class="clock" id="clock"></div>
+
+<div style="margin-top:30px; font-family:'Noto Serif Gurmukhi'; max-width:520px;">
+This space awakens during Amrit Vela<br>
+3:00 AM — 6:00 AM
 </div>
+
+<div class="lockHint">Return during sacred hours</div>
+</div>
+
 
 <!-- MAIN CARD -->
 <div class="card" id="mainContent" style="display:none">
-  <div class="khanda" id="khanda">☬</div>
-  <h1>Good Morning Eeman</h1>
-  <p style="font-size:16px; margin-top:-6px;">E To Be President</p>
-  <p>Quietly created for your growth and success today</p>
 
-  <div class="tabs">
-    <div class="tab active" data-tab="rakh">Rakh Charna</div>
-    <div class="tab" data-tab="affirm">Affirmations</div>
-    <div class="tab" data-tab="secret">Secret Blessing</div>
-  </div>
+<div class="khanda" id="khanda">☬</div>
 
-  <div id="rakh" class="tab-content active">
-    <button onclick="playRakh(event)">Play Rakh Charna</button>
-  </div>
+<h1>Good Morning Eeman</h1>
+<div style="opacity:0.7; font-size:15px;">E To Be President</div>
 
-  <div id="affirm" class="tab-content">
-    <p>I am calm. I am ready. Waheguru walks beside me.<br>
-    I am prepared to face today with courage and joy.<br>
-    Each step I take brings me closer to success and growth.</p>
-  </div>
+<p>Quietly created for your growth and success today</p>
 
-  <div id="secret" class="tab-content">
-    <p id="secretText">Tap the Khanda…</p>
-  </div>
+<div class="tabs">
+<div class="tab active" data-tab="rakh">Rakh Charna</div>
+<div class="tab" data-tab="affirm">Affirmations</div>
+<div class="tab" data-tab="secret">Secret Blessing</div>
 </div>
 
-<!-- AUDIO FILES -->
+<div id="rakh" class="tab-content active">
+<button onclick="playRakh(event)">Play Rakh Charna</button>
+</div>
+
+<div id="affirm" class="tab-content">
+<p>
+I am calm. I am ready. Waheguru walks beside me.<br>
+I am prepared to face today with courage and joy.<br>
+Each step I take brings me closer to success and growth.
+</p>
+</div>
+
+<div id="secret" class="tab-content">
+<p id="secretText">Tap the Khanda…</p>
+</div>
+
+</div>
+
+
+<!-- AUDIO (UNCHANGED) -->
 <audio id="aisanaam" loop>
-  <source src="./aisanaam.mp3">
-</audio>
-<audio id="rakhcharna">
-  <source src="./rakhcharna.mp3">
+<source src="./aisanaam.mp3">
 </audio>
 
+<audio id="rakhcharna">
+<source src="./rakhcharna.mp3">
+</audio>
+
+
 <script>
+
+/* ---------- CLOCK ---------- */
+
+function updateClock(){
+  const now=new Date();
+  document.getElementById("clock").innerText=
+  now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+}
+setInterval(updateClock,1000);
+updateClock();
+
+
+/* ---------- PARTICLES ---------- */
+
+const particleContainer=document.getElementById("particles");
+
+for(let i=0;i<25;i++){
+  const p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"%";
+  p.style.animationDuration=(8+Math.random()*6)+"s";
+  p.style.animationDelay=Math.random()*10+"s";
+  particleContainer.appendChild(p);
+}
+
+
+/* ---------- AUDIO (UNCHANGED) ---------- */
+
 const aisanaam=document.getElementById("aisanaam");
 const rakh=document.getElementById("rakhcharna");
 let currentAudio=null;
 let userStarted=false;
 
-// Fade out audio smoothly
 async function fadeOut(audio){
   return new Promise(resolve=>{
     let fade=setInterval(()=>{
@@ -217,7 +328,6 @@ async function fadeOut(audio){
   });
 }
 
-// Play audio with fade in
 async function playAudio(audio){
   if(currentAudio && currentAudio!==audio){
     await fadeOut(currentAudio);
@@ -232,16 +342,17 @@ async function playAudio(audio){
   },120);
 }
 
-// Play Rakh Charna smoothly
 function playRakh(event){
   event.stopPropagation();
-  if(!rakh.paused) return; // prevent multiple clicks conflict
+  if(!rakh.paused) return;
+
   if(!aisanaam.paused){
     fadeOut(aisanaam).then(()=>{
       rakh.currentTime=0;
       rakh.volume=0;
       rakh.play();
       currentAudio=rakh;
+
       let fade=setInterval(()=>{
         if(rakh.volume<0.3) rakh.volume+=0.02;
         else clearInterval(fade);
@@ -252,15 +363,16 @@ function playRakh(event){
     rakh.volume=0;
     rakh.play();
     currentAudio=rakh;
+
     let fade=setInterval(()=>{
       if(rakh.volume<0.3) rakh.volume+=0.02;
       else clearInterval(fade);
     },120);
   }
-  rakh.onended = ()=> playAudio(aisanaam);
+
+  rakh.onended=()=>playAudio(aisanaam);
 }
 
-// Start Aisa Naam on first click anywhere
 document.body.addEventListener("click",()=>{
   if(!userStarted){
     playAudio(aisanaam);
@@ -268,40 +380,50 @@ document.body.addEventListener("click",()=>{
   }
 });
 
-// TIME LOCK 3AM–6AM
+
+/* ---------- TIME LOCK ---------- */
+
 const overlay=document.getElementById("timeOverlay");
 const content=document.getElementById("mainContent");
+
 function checkTime(){
-  const now = new Date();
-  const h = now.getHours();
-  const m = now.getMinutes();
-  if((h > 3 && h < 6) || (h === 3 && m >= 0)){
-    overlay.style.display="none";
-    content.style.display="block";
-    document.body.classList.add("awaken");
-  } else {
-    overlay.style.display="flex";
-    content.style.display="none";
+  const now=new Date();
+  const h=now.getHours();
+
+  if(h>=3 && h<6){
+    overlay.style.opacity="0";
+
+    setTimeout(()=>{
+      overlay.style.display="none";
+      content.style.display="block";
+      document.body.classList.add("awaken");
+    },1200);
   }
 }
-setInterval(checkTime, 30000);
+setInterval(checkTime,30000);
 checkTime();
 
-// Tabs functionality
+
+/* ---------- TABS ---------- */
+
 document.querySelectorAll(".tab").forEach(tab=>{
   tab.onclick=()=>{
     document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
     document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
+
     tab.classList.add("active");
     document.getElementById(tab.dataset.tab).classList.add("active");
   }
 });
 
-// Khanda click for secret blessing
+
+/* ---------- SECRET ---------- */
+
 document.getElementById("khanda").onclick=()=>{
   document.getElementById("secretText").innerText=
-    "Someone believes in you with full faith and wanted to see you grow! Big Day coming up! Be prepared.";
+  "Someone believes in you deeply and wants to see you rise. Big day coming — stay ready.";
 };
+
 </script>
 </body>
 </html>
