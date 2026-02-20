@@ -61,8 +61,9 @@ body.loaded::before {
 .lockScreenMessage {
   position: relative;
   z-index: 2;
-  max-width: 700px;
-  padding: 40px 50px;
+  max-width: 90%;
+  width: 600px;
+  padding: 30px 25px;
   font-size: 22px;
   line-height: 1.8;
   text-align: justify;
@@ -74,6 +75,8 @@ body.loaded::before {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 1s forwards 1.5s;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 @keyframes fadeInUp {
@@ -82,11 +85,23 @@ body.loaded::before {
 
 /* LOCK HINT */
 .lockHint {
-  margin-top: 20px;
+  margin-top: 15px;
   font-size: 16px;
   font-weight: 400;
   opacity: 0.7;
   text-align: center;
+}
+
+/* RESPONSIVE FOR MOBILE */
+@media screen and (max-width: 480px) {
+  .lockScreenMessage {
+    font-size: 18px;
+    padding: 25px 20px;
+    max-width: 90%;
+  }
+  .lockHint {
+    font-size: 14px;
+  }
 }
 </style>
 </head>
@@ -147,11 +162,11 @@ function typeHuman(element, text) {
 const lockTextElement = document.getElementById("animatedLockText");
 const lockText = `Tomorrow at the Garnet Gala, I’ll be arriving at 4:45 PM. Make sure you’re there.
 
-I’ll be wearing camel/tan and black: tan suede coat, black turtleneck, black bootcut jeans. Sleek and minimal look — make sure you wear something similar.
+I’ll be wearing camel/tan and black: tan suede coat, black turtleneck, black bootcut jeans. Sleek and minimal look - A sign I'd be looking for rest upto you .
 
 Just enough to be noticed… a presence you won’t forget.
 
-I’ll be waiting for you there. We need to talk.`;
+I’ll be waiting for you there. We need to talk about something that's happening.`;
 
 typeHuman(lockTextElement, lockText);
 
