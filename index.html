@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 
 <style>
-/* BODY & BACKGROUND */
+/* BODY & INITIAL BLACK SCREEN */
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -17,8 +17,21 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: linear-gradient(180deg, #8e2de2, #4a00e0); /* magenta gradient */
-  color: #d2b48c; /* golden font */
+  background: #000;
+  color: #d2b48c;
+  transition: background 1.5s ease;
+}
+
+/* BACKGROUND IMAGE WITH BLUR */
+body.loaded::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("./eeman.jpeg") center/cover no-repeat fixed;
+  filter: blur(5px);
+  z-index: -1;
+  transition: opacity 1.5s ease;
+  opacity: 1;
 }
 
 /* SUBTLE PARTICLES */
@@ -52,19 +65,17 @@ body {
   padding: 40px 50px;
   font-size: 22px;
   line-height: 1.8;
-  text-align: justify; /* Proper paragraph alignment */
+  text-align: justify;
   font-weight: bold;
   color: #d2b48c;
-  background: rgba(0,0,0,0.25); /* subtle dark background */
-  backdrop-filter: blur(8px); /* background blur */
+  background: rgba(0,0,0,0.25); /* semi-transparent black behind text */
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 2s forwards 0.5s;
+  animation: fadeInUp 2s forwards 1.5s; /* fade in after black screen */
 }
 
-/* FADE IN ANIMATION */
 @keyframes fadeInUp {
   to {opacity: 1; transform: translateY(0);}
 }
@@ -85,7 +96,9 @@ body {
 
 <div class="lockScreenMessage">
   <p>
-    Tomorrow at the <strong>Garnet Gala</strong>, I’ll be arriving at <strong>4:45 PM</strong>. Make sure you’re there.<br><br>
+    Tomorrow at the <strong>Garnet Gala</strong>, 
+    I’ll be arriving at <strong>4:45 PM</strong>. 
+    Make sure you’re there.<br><br>
     I’ll be wearing <strong>camel/tan and black</strong>: tan suede coat, black turtleneck, black bootcut jeans. Sleek and minimal look — make sure you wear something similar.<br><br>
     Just enough to be noticed… a presence you won’t forget.<br><br>
     I’ll be waiting for you there. We need to talk.
@@ -94,6 +107,11 @@ body {
 </div>
 
 <script>
+/* FADE IN BLACK SCREEN TO BACKGROUND */
+window.addEventListener("load", ()=>{
+  setTimeout(()=>{ document.body.classList.add("loaded"); }, 500); // black screen then background appears
+});
+
 /* PARTICLES */
 const particleContainer = document.getElementById("particles");
 for(let i=0;i<30;i++){
