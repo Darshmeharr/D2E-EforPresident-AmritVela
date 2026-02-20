@@ -3,37 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Garnet Gala Romantic Message</title>
+<title>Garnet Gala Message</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 
 <style>
-/* BODY & BACKGROUND */
+/* BODY & INITIAL BLACK SCREEN */
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
   overflow: hidden;
-  background: url("./eeman.jpeg") center/cover no-repeat fixed;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #d2b48c; /* default gold/tan for text */
-  animation: zoomBg 40s ease-in-out infinite alternate;
+  background: #000;
+  color: #d2b48c;
+  transition: background 1.5s ease;
 }
 
-@keyframes zoomBg {
-  from {transform: scale(1);}
-  to {transform: scale(1.06);}
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(5px);
-  z-index: -1;
+/* BACKGROUND IMAGE */
+body.loaded {
+  background: url("./eeman.jpeg") center/cover no-repeat fixed;
 }
 
 /* PARTICLES */
@@ -42,22 +33,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 1;
-}
-
-.particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #d2b48c;
-  border-radius: 50%;
   opacity: 0.25;
-  animation: floatParticle 12s linear infinite;
-}
-
-@keyframes floatParticle {
-  from {transform: translateY(100vh); opacity: 0;}
-  50% {opacity: 0.4;}
-  to {transform: translateY(-10vh); opacity: 0;}
 }
 
 /* LOCK SCREEN MESSAGE */
@@ -70,9 +46,10 @@ body::before {
   line-height: 1.8;
   text-align: center;
   white-space: pre-wrap;
+  color: #d2b48c;
 }
 
-/* TYPING ANIMATION FOR ALL TEXT */
+/* TYPING ANIMATION */
 .typingText {
   display: inline-block;
   overflow: hidden;
@@ -83,36 +60,20 @@ body::before {
 .typingText span {
   display: inline-block;
   opacity: 0;
-  transform: translateY(8px);
-  animation: fadeInLetter 0.6s forwards;
+  transform: translateY(2px);
+  animation: fadeInLetter 0.4s forwards;
 }
 
 @keyframes fadeInLetter {
   to {opacity: 1; transform: translateY(0);}
 }
 
-@keyframes sparkle {
-  0% { text-shadow: 0 0 2px #fff; }
-  50% { text-shadow: 0 0 6px #fff, 0 0 10px #d2b48c; }
-  100% { text-shadow: 0 0 2px #fff; }
-}
-
-.typingText span:nth-child(odd) {
-  animation: fadeInLetter 0.6s forwards, sparkle 2s infinite alternate;
-}
-
-/* OPTIONAL LOCK HINT */
+/* LOCK HINT */
 .lockHint {
   margin-top: 20px;
   font-size: 14px;
   opacity: 0.6;
-  animation: pulse 2s infinite;
 }
-
-@keyframes pulse {
-  50% {opacity:0.2;}
-}
-
 </style>
 </head>
 <body>
@@ -130,18 +91,24 @@ body::before {
 </audio>
 
 <script>
-/* PARTICLES */
+/* FADE IN BACKGROUND AFTER SHORT DELAY */
+window.addEventListener("load", ()=>{
+  setTimeout(()=>{ document.body.classList.add("loaded"); }, 1000);
+});
+
+/* PARTICLES (subtle) */
 const particleContainer = document.getElementById("particles");
-for(let i=0;i<30;i++){
+for(let i=0;i<20;i++){
   const p = document.createElement("div");
   p.className = "particle";
   p.style.left = Math.random()*100+"%";
-  p.style.animationDuration = (8 + Math.random()*6) + "s";
-  p.style.animationDelay = Math.random()*10 + "s";
+  p.style.width = p.style.height = (2 + Math.random()*3) + "px";
+  p.style.animationDuration = (6 + Math.random()*6) + "s";
+  p.style.animationDelay = Math.random()*6 + "s";
   particleContainer.appendChild(p);
 }
 
-/* MUSIC AUTOPLAY WITH FADE IN */
+/* AUDIO FADE IN */
 const music = document.getElementById("bgMusic");
 music.volume = 0;
 function fadeInMusic(){
@@ -153,23 +120,21 @@ function fadeInMusic(){
     } else clearInterval(fade);
   },200);
 }
-window.addEventListener("load", ()=>{
-  music.play().then(fadeInMusic).catch(()=>{
-    document.body.addEventListener("click", ()=>{
-      music.play();
-      fadeInMusic();
-    }, { once: true });
-  });
+music.play().then(fadeInMusic).catch(()=>{
+  document.body.addEventListener("click", ()=>{
+    music.play();
+    fadeInMusic();
+  }, { once: true });
 });
 
-/* ROMANTIC TYPING ANIMATION FUNCTION */
-function typeText(element, text, delay=80){
+/* TYPING ANIMATION FUNCTION */
+function typeText(element, text, delay=60){
   let index = 0;
   function type() {
     if(index < text.length){
       const span = document.createElement("span");
       span.textContent = text.charAt(index);
-      span.style.animationDelay = (index*0.08) + "s";
+      span.style.animationDelay = (index*0.06) + "s";
       element.appendChild(span);
       index++;
       setTimeout(type, delay);
@@ -178,7 +143,7 @@ function typeText(element, text, delay=80){
   type();
 }
 
-/* START LOCK SCREEN TYPING */
+/* LOCK SCREEN TEXT */
 const lockTextElement = document.getElementById("animatedLockText");
 const lockText = 
 `Tomorrow at the Garnet Gala
