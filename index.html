@@ -18,8 +18,8 @@ body {
   align-items: center;
   overflow: hidden;
   background: #000;
+  color: #fff8dc;
   transition: background 1.5s ease;
-  color: #fff8dc; /* golden-white text for magenta background */
 }
 
 /* BACKGROUND IMAGE WITH BLUR */
@@ -34,7 +34,7 @@ body.loaded::before {
   transition: opacity 1.5s ease;
 }
 
-/* SUBTLE PARTICLES */
+/* PARTICLES */
 .particles {
   position: fixed;
   inset: 0;
@@ -47,7 +47,7 @@ body.loaded::before {
   position: absolute;
   width: 2px;
   height: 2px;
-  background: #fff8dc; /* match text */
+  background: #fff8dc;
   border-radius: 50%;
   animation: floatParticle 10s linear infinite;
 }
@@ -73,23 +73,10 @@ body.loaded::before {
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 1s forwards 2s;
+  animation: fadeInUp 1s forwards 1.5s;
 }
 
-/* FADE IN ANIMATION */
 @keyframes fadeInUp {
-  to {opacity: 1; transform: translateY(0);}
-}
-
-/* TYPING ANIMATION */
-.typingText span {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(2px);
-  animation: fadeInLetter 0.4s forwards;
-}
-
-@keyframes fadeInLetter {
   to {opacity: 1; transform: translateY(0);}
 }
 
@@ -108,9 +95,14 @@ body.loaded::before {
 <div class="particles" id="particles"></div>
 
 <div class="lockScreenMessage">
-  <div class="typingText" id="animatedLockText"></div>
+  <div id="animatedLockText"></div>
   <div class="lockHint">Don't be late.</div>
 </div>
+
+<!-- AUDIO -->
+<audio id="bgMusic" autoplay loop>
+  <source src="excuses.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 /* FADE IN BLACK SCREEN TO BACKGROUND */
@@ -130,16 +122,21 @@ for(let i=0;i<30;i++){
   particleContainer.appendChild(p);
 }
 
-/* TYPING ANIMATION FUNCTION */
-function typeText(element, text, delay=40){
+/* HUMAN-LIKE TYPING FUNCTION */
+function typeHuman(element, text) {
   let index = 0;
   function type() {
-    if(index < text.length){
-      const span = document.createElement("span");
-      span.textContent = text.charAt(index);
-      span.style.animationDelay = (index*0.04) + "s";
-      element.appendChild(span);
+    if (index < text.length) {
+      const char = text.charAt(index);
+      element.innerHTML += char === "\n" ? "<br><br>" : char;
       index++;
+      
+      // Human-like pauses
+      let delay = 50 + Math.random() * 50;
+      if(char === "," || char === ":") delay += 100;
+      if(char === "." || char === "!" || char === "?") delay += 200;
+      if(char === "\n") delay += 200;
+      
       setTimeout(type, delay);
     }
   }
@@ -156,7 +153,26 @@ Just enough to be noticed… a presence you won’t forget.
 
 I’ll be waiting for you there. We need to talk.`;
 
-typeText(lockTextElement, lockText, 40);
+typeHuman(lockTextElement, lockText);
+
+/* AUDIO FADE IN */
+const music = document.getElementById("bgMusic");
+music.volume = 0;
+function fadeInMusic() {
+  let vol = 0;
+  const fade = setInterval(() => {
+    if (vol < 0.4) {
+      vol += 0.02;
+      music.volume = vol;
+    } else clearInterval(fade);
+  }, 200);
+}
+music.play().then(fadeInMusic).catch(() => {
+  document.body.addEventListener("click", () => {
+    music.play();
+    fadeInMusic();
+  }, { once: true });
+});
 </script>
 
 </body>
