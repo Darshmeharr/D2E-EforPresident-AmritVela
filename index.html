@@ -8,32 +8,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 
 <style>
-/* BODY & INITIAL BLACK SCREEN */
+/* BODY & BACKGROUND */
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
-  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000;
-  color: #d2b48c;
-  transition: background 1.5s ease;
+  overflow: hidden;
+  background: linear-gradient(180deg, #8e2de2, #4a00e0); /* elegant magenta gradient */
+  color: #d2b48c; /* golden text */
 }
 
-/* BACKGROUND IMAGE */
-body.loaded {
-  background: url("./eeman.jpeg") center/cover no-repeat fixed;
-}
-
-/* PARTICLES */
+/* PARTICLES (subtle) */
 .particles {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.25;
+  opacity: 0.1;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #d2b48c;
+  border-radius: 50%;
+  animation: floatParticle 10s linear infinite;
+}
+
+@keyframes floatParticle {
+  from {transform: translateY(100vh);}
+  to {transform: translateY(-10vh);}
 }
 
 /* LOCK SCREEN MESSAGE */
@@ -41,38 +49,30 @@ body.loaded {
   position: relative;
   z-index: 2;
   max-width: 700px;
-  padding: 20px;
-  font-size: 20px;
+  padding: 40px;
+  font-size: 22px;
   line-height: 1.8;
   text-align: center;
-  white-space: pre-wrap;
+  font-weight: bold;
   color: #d2b48c;
-}
-
-/* TYPING ANIMATION */
-.typingText {
-  display: inline-block;
-  overflow: hidden;
-  border-right: 2px solid #d2b48c;
-  white-space: pre-wrap;
-}
-
-.typingText span {
-  display: inline-block;
+  background: rgba(0,0,0,0.15); /* subtle transparent background for text readability */
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   opacity: 0;
-  transform: translateY(2px);
-  animation: fadeInLetter 0.4s forwards;
+  transform: translateY(20px);
+  animation: fadeInUp 2s forwards 0.5s;
 }
 
-@keyframes fadeInLetter {
+@keyframes fadeInUp {
   to {opacity: 1; transform: translateY(0);}
 }
 
-/* LOCK HINT */
+/* OPTIONAL LOCK HINT */
 .lockHint {
   margin-top: 20px;
-  font-size: 14px;
-  opacity: 0.6;
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0.7;
 }
 </style>
 </head>
@@ -81,88 +81,28 @@ body.loaded {
 <div class="particles" id="particles"></div>
 
 <div class="lockScreenMessage">
-  <div class="typingText" id="animatedLockText"></div>
+  <p>
+    Tomorrow at the <strong>Garnet Gala</strong>,<br><br>
+    I’ll be arriving at <strong>4:45 PM</strong>. Make sure you’re there.<br><br>
+    I’ll be wearing <strong>camel/tan and black</strong>: tan suede coat, black turtleneck, black bootcut jeans. Sleek and minimal look — make sure you wear something similar.<br><br>
+    Just enough to be noticed… a presence you won’t forget.<br><br>
+    I’ll be waiting for you there. We need to talk.
+  </p>
   <div class="lockHint">Don't be late.</div>
 </div>
 
-<!-- AUDIO -->
-<audio id="bgMusic" autoplay loop>
-  <source src="excuses.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-/* FADE IN BACKGROUND AFTER SHORT DELAY */
-window.addEventListener("load", ()=>{
-  setTimeout(()=>{ document.body.classList.add("loaded"); }, 1000);
-});
-
-/* PARTICLES (subtle) */
+/* PARTICLES */
 const particleContainer = document.getElementById("particles");
-for(let i=0;i<20;i++){
+for(let i=0;i<30;i++){
   const p = document.createElement("div");
   p.className = "particle";
   p.style.left = Math.random()*100+"%";
-  p.style.width = p.style.height = (2 + Math.random()*3) + "px";
+  p.style.width = p.style.height = (2 + Math.random()*2) + "px";
   p.style.animationDuration = (6 + Math.random()*6) + "s";
   p.style.animationDelay = Math.random()*6 + "s";
   particleContainer.appendChild(p);
 }
-
-/* AUDIO FADE IN */
-const music = document.getElementById("bgMusic");
-music.volume = 0;
-function fadeInMusic(){
-  let vol = 0;
-  const fade = setInterval(()=>{
-    if(vol < 0.4){
-      vol += 0.02;
-      music.volume = vol;
-    } else clearInterval(fade);
-  },200);
-}
-music.play().then(fadeInMusic).catch(()=>{
-  document.body.addEventListener("click", ()=>{
-    music.play();
-    fadeInMusic();
-  }, { once: true });
-});
-
-/* TYPING ANIMATION FUNCTION */
-function typeText(element, text, delay=60){
-  let index = 0;
-  function type() {
-    if(index < text.length){
-      const span = document.createElement("span");
-      span.textContent = text.charAt(index);
-      span.style.animationDelay = (index*0.06) + "s";
-      element.appendChild(span);
-      index++;
-      setTimeout(type, delay);
-    }
-  }
-  type();
-}
-
-/* LOCK SCREEN TEXT */
-const lockTextElement = document.getElementById("animatedLockText");
-const lockText = 
-`Tomorrow at the Garnet Gala
-
-I'll be arriving at 4:45 PM.
-Make sure you're there.
-
-I'll be wearing camel/tan and black.
-Tan suede coat, black turtleneck, black bootcut jeans.
-Sleek and minimal look.
-Make sure you wear something similar.
-
-Just enough to be noticed…
-A presence you won’t forget.
-
-I'll be waiting for you there.
-We need to talk.`;
-
-typeText(lockTextElement, lockText, 50);
 </script>
 
 </body>
