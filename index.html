@@ -17,17 +17,17 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: linear-gradient(180deg, #8e2de2, #4a00e0); /* elegant magenta gradient */
-  color: #d2b48c; /* golden text */
+  background: linear-gradient(180deg, #8e2de2, #4a00e0); /* magenta gradient */
+  color: #d2b48c; /* golden font */
 }
 
-/* PARTICLES (subtle) */
+/* SUBTLE PARTICLES */
 .particles {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.1;
+  opacity: 0.08;
 }
 
 .particle {
@@ -44,18 +44,19 @@ body {
   to {transform: translateY(-10vh);}
 }
 
-/* LOCK SCREEN MESSAGE */
+/* MESSAGE BOX */
 .lockScreenMessage {
   position: relative;
   z-index: 2;
   max-width: 700px;
-  padding: 40px;
+  padding: 40px 50px;
   font-size: 22px;
   line-height: 1.8;
-  text-align: center;
+  text-align: justify; /* Proper paragraph alignment */
   font-weight: bold;
   color: #d2b48c;
-  background: rgba(0,0,0,0.15); /* subtle transparent background for text readability */
+  background: rgba(0,0,0,0.25); /* subtle dark background */
+  backdrop-filter: blur(8px); /* background blur */
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   opacity: 0;
@@ -63,6 +64,7 @@ body {
   animation: fadeInUp 2s forwards 0.5s;
 }
 
+/* FADE IN ANIMATION */
 @keyframes fadeInUp {
   to {opacity: 1; transform: translateY(0);}
 }
@@ -73,6 +75,7 @@ body {
   font-size: 16px;
   font-weight: 400;
   opacity: 0.7;
+  text-align: center;
 }
 </style>
 </head>
@@ -82,8 +85,7 @@ body {
 
 <div class="lockScreenMessage">
   <p>
-    Tomorrow at the <strong>Garnet Gala</strong>,<br><br>
-    I’ll be arriving at <strong>4:45 PM</strong>. Make sure you’re there.<br><br>
+    Tomorrow at the <strong>Garnet Gala</strong>, I’ll be arriving at <strong>4:45 PM</strong>. Make sure you’re there.<br><br>
     I’ll be wearing <strong>camel/tan and black</strong>: tan suede coat, black turtleneck, black bootcut jeans. Sleek and minimal look — make sure you wear something similar.<br><br>
     Just enough to be noticed… a presence you won’t forget.<br><br>
     I’ll be waiting for you there. We need to talk.
