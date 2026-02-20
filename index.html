@@ -18,8 +18,8 @@ body {
   align-items: center;
   overflow: hidden;
   background: #000;
-  color: #d2b48c;
   transition: background 1.5s ease;
+  color: #fff8dc; /* golden-white text for magenta background */
 }
 
 /* BACKGROUND IMAGE WITH BLUR */
@@ -30,8 +30,8 @@ body.loaded::before {
   background: url("./eeman.jpeg") center/cover no-repeat fixed;
   filter: blur(5px);
   z-index: -1;
-  transition: opacity 1.5s ease;
   opacity: 1;
+  transition: opacity 1.5s ease;
 }
 
 /* SUBTLE PARTICLES */
@@ -47,7 +47,7 @@ body.loaded::before {
   position: absolute;
   width: 2px;
   height: 2px;
-  background: #d2b48c;
+  background: #fff8dc; /* match text */
   border-radius: 50%;
   animation: floatParticle 10s linear infinite;
 }
@@ -67,20 +67,33 @@ body.loaded::before {
   line-height: 1.8;
   text-align: justify;
   font-weight: bold;
-  color: #d2b48c;
-  background: rgba(0,0,0,0.25); /* semi-transparent black behind text */
+  color: #fff8dc;
+  background: rgba(0,0,0,0.25);
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 2s forwards 1.5s; /* fade in after black screen */
+  animation: fadeInUp 1s forwards 2s;
 }
 
+/* FADE IN ANIMATION */
 @keyframes fadeInUp {
   to {opacity: 1; transform: translateY(0);}
 }
 
-/* OPTIONAL LOCK HINT */
+/* TYPING ANIMATION */
+.typingText span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(2px);
+  animation: fadeInLetter 0.4s forwards;
+}
+
+@keyframes fadeInLetter {
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* LOCK HINT */
 .lockHint {
   margin-top: 20px;
   font-size: 16px;
@@ -95,21 +108,14 @@ body.loaded::before {
 <div class="particles" id="particles"></div>
 
 <div class="lockScreenMessage">
-  <p>
-    Tomorrow at the <strong>Garnet Gala</strong>, 
-    I’ll be arriving at <strong>4:45 PM</strong>. 
-    Make sure you’re there.<br><br>
-    I’ll be wearing <strong>camel/tan and black</strong>: tan suede coat, black turtleneck, black bootcut jeans. Sleek and minimal look — make sure you wear something similar.<br><br>
-    Just enough to be noticed… a presence you won’t forget.<br><br>
-    I’ll be waiting for you there. We need to talk.
-  </p>
+  <div class="typingText" id="animatedLockText"></div>
   <div class="lockHint">Don't be late.</div>
 </div>
 
 <script>
 /* FADE IN BLACK SCREEN TO BACKGROUND */
 window.addEventListener("load", ()=>{
-  setTimeout(()=>{ document.body.classList.add("loaded"); }, 500); // black screen then background appears
+  setTimeout(()=>{ document.body.classList.add("loaded"); }, 500);
 });
 
 /* PARTICLES */
@@ -123,6 +129,34 @@ for(let i=0;i<30;i++){
   p.style.animationDelay = Math.random()*6 + "s";
   particleContainer.appendChild(p);
 }
+
+/* TYPING ANIMATION FUNCTION */
+function typeText(element, text, delay=40){
+  let index = 0;
+  function type() {
+    if(index < text.length){
+      const span = document.createElement("span");
+      span.textContent = text.charAt(index);
+      span.style.animationDelay = (index*0.04) + "s";
+      element.appendChild(span);
+      index++;
+      setTimeout(type, delay);
+    }
+  }
+  type();
+}
+
+/* LOCK SCREEN TEXT */
+const lockTextElement = document.getElementById("animatedLockText");
+const lockText = `Tomorrow at the Garnet Gala, I’ll be arriving at 4:45 PM. Make sure you’re there.
+
+I’ll be wearing camel/tan and black: tan suede coat, black turtleneck, black bootcut jeans. Sleek and minimal look — make sure you wear something similar.
+
+Just enough to be noticed… a presence you won’t forget.
+
+I’ll be waiting for you there. We need to talk.`;
+
+typeText(lockTextElement, lockText, 40);
 </script>
 
 </body>
