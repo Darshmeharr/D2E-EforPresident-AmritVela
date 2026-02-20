@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 
 <style>
-/* BODY & INITIAL BLACK SCREEN */
+/* ---------- BODY & BACKGROUND ---------- */
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -17,24 +17,21 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: #000;
   color: #fff8dc;
-  transition: background 1.5s ease;
+  background: url("./me.jpeg") center/cover no-repeat fixed;
+  position: relative;
 }
 
-/* BACKGROUND IMAGE WITH BLUR */
-body.loaded::before {
+/* Dark overlay for readability */
+body::after {
   content: "";
   position: fixed;
   inset: 0;
-  background: url("./eeman.jpeg") center/cover no-repeat fixed;
-  filter: blur(5px);
-  z-index: -1;
-  opacity: 1;
-  transition: opacity 1.5s ease;
+  background: rgba(0,0,0,0.45);
+  z-index: 0;
 }
 
-/* PARTICLES */
+/* ---------- PARTICLES ---------- */
 .particles {
   position: fixed;
   inset: 0;
@@ -45,10 +42,8 @@ body.loaded::before {
 
 .particle {
   position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #fff8dc;
   border-radius: 50%;
+  background: #fff8dc;
   animation: floatParticle 10s linear infinite;
 }
 
@@ -57,7 +52,7 @@ body.loaded::before {
   to {transform: translateY(-10vh);}
 }
 
-/* MESSAGE BOX */
+/* ---------- LOCK SCREEN MESSAGE ---------- */
 .lockScreenMessage {
   position: relative;
   z-index: 2;
@@ -65,25 +60,17 @@ body.loaded::before {
   width: 600px;
   padding: 30px 25px;
   font-size: 22px;
-  line-height: 1.8;
+  line-height: 1.6;
   text-align: justify;
   font-weight: bold;
-  color: #fff8dc;
   background: rgba(0,0,0,0.25);
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 1s forwards 1.5s;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  opacity: 1;
 }
 
-@keyframes fadeInUp {
-  to {opacity: 1; transform: translateY(0);}
-}
-
-/* LOCK HINT */
 .lockHint {
   margin-top: 15px;
   font-size: 16px;
@@ -92,12 +79,26 @@ body.loaded::before {
   text-align: center;
 }
 
-/* RESPONSIVE FOR MOBILE */
+.highlight {
+  color: #d2b48c;
+  font-weight: 500;
+}
+
+/* Line animation */
+.line {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: lineFadeIn 1s forwards;
+}
+
+@keyframes lineFadeIn {
+  to {opacity: 1; transform: translateY(0);}
+}
+
 @media screen and (max-width: 480px) {
   .lockScreenMessage {
     font-size: 18px;
-    padding: 25px 20px;
-    max-width: 90%;
+    padding: 20px 15px;
   }
   .lockHint {
     font-size: 14px;
@@ -107,70 +108,53 @@ body.loaded::before {
 </head>
 <body>
 
+<!-- PARTICLES -->
 <div class="particles" id="particles"></div>
 
-<div class="lockScreenMessage">
-  <div id="animatedLockText"></div>
-  <div class="lockHint">Don't be late.</div>
+<!-- LOCK SCREEN MESSAGE -->
+<div class="lockScreenMessage" id="lockScreenMessage">
 </div>
 
-<!-- AUDIO -->
+<div class="lockHint">Don't be late.</div>
+
+<!-- BACKGROUND MUSIC -->
 <audio id="bgMusic" autoplay loop>
   <source src="excuses.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-/* FADE IN BLACK SCREEN TO BACKGROUND */
-window.addEventListener("load", ()=>{
-  setTimeout(()=>{ document.body.classList.add("loaded"); }, 500);
-});
-
-/* PARTICLES */
+// ---------- PARTICLES ----------
 const particleContainer = document.getElementById("particles");
 for(let i=0;i<30;i++){
   const p = document.createElement("div");
   p.className = "particle";
+  const size = 2 + Math.random()*2;
+  p.style.width = p.style.height = size + "px";
   p.style.left = Math.random()*100+"%";
-  p.style.width = p.style.height = (2 + Math.random()*2) + "px";
   p.style.animationDuration = (6 + Math.random()*6) + "s";
   p.style.animationDelay = Math.random()*6 + "s";
   particleContainer.appendChild(p);
 }
 
-/* HUMAN-LIKE TYPING FUNCTION */
-function typeHuman(element, text) {
-  let index = 0;
-  function type() {
-    if (index < text.length) {
-      const char = text.charAt(index);
-      element.innerHTML += char === "\n" ? "<br><br>" : char;
-      index++;
-      
-      // Human-like pauses
-      let delay = 50 + Math.random() * 50;
-      if(char === "," || char === ":") delay += 100;
-      if(char === "." || char === "!" || char === "?") delay += 200;
-      if(char === "\n") delay += 200;
-      
-      setTimeout(type, delay);
-    }
-  }
-  type();
-}
+// ---------- CINEMATIC LINE-BY-LINE DISPLAY ----------
+const lockScreenMessage = document.getElementById("lockScreenMessage");
+const lines = [
+  "Tomorrow I would be there at <span class='highlight'>Garnet Gala</span> at 4.45! Hoping to see you over there!",
+  "I’m wearing <span class='highlight'>tan blazer</span>, paired with pants! Sleek and minimal look — looking for some sign over there!",
+  "Just enough to be noticed… a presence you won’t forget.",
+  "I’ll be waiting for you there. We need to talk. SRRO",
+  "Can’t wait to see you there!"
+];
 
-/* LOCK SCREEN TEXT */
-const lockTextElement = document.getElementById("animatedLockText");
-const lockText = `Tomorrow at the Garnet Gala, I’ll be arriving at 4:45 PM. Make sure you’re there.
+lines.forEach((line, i) => {
+  const div = document.createElement("div");
+  div.className = "line";
+  div.innerHTML = line;
+  div.style.animationDelay = (i * 1.2) + "s"; // stagger each line
+  lockScreenMessage.appendChild(div);
+});
 
-I’ll be wearing camel/tan and black: tan suede coat, black turtleneck, black bootcut jeans. Sleek and minimal look - A sign I'd be looking for rest upto you .
-
-Just enough to be noticed… a presence you won’t forget.
-
-I’ll be waiting for you there. We need to talk about something that's happening.`;
-
-typeHuman(lockTextElement, lockText);
-
-/* AUDIO FADE IN */
+// ---------- AUDIO FADE IN ----------
 const music = document.getElementById("bgMusic");
 music.volume = 0;
 function fadeInMusic() {
