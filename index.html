@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>See You There</title>
+<title>Garnet Gala Message</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 
 <style>
-
 body{
   margin:0;
   font-family:'Inter',sans-serif;
@@ -37,7 +36,6 @@ body::before{
 }
 
 /* PARTICLES */
-
 .particles{
   position:fixed;
   inset:0;
@@ -55,19 +53,12 @@ body::before{
 }
 
 @keyframes floatParticle{
-  from{
-    transform:translateY(100vh);
-    opacity:0;
-  }
+  from{transform:translateY(100vh); opacity:0;}
   50%{opacity:0.4;}
-  to{
-    transform:translateY(-10vh);
-    opacity:0;
-  }
+  to{transform:translateY(-10vh); opacity:0;}
 }
 
 /* LOCK SCREEN */
-
 #timeOverlay{
   position:fixed;
   inset:0;
@@ -101,10 +92,10 @@ body::before{
 }
 
 .timeHighlight{
-  font-size:26px;
+  font-size:28px;
   color:#d2b48c;
   margin-top:10px;
-  font-weight:500;
+  font-weight:600;
 }
 
 .lockHint{
@@ -119,7 +110,6 @@ body::before{
 }
 
 /* MAIN CARD */
-
 .card{
   background:rgba(255,255,255,0.08);
   backdrop-filter:blur(25px);
@@ -148,26 +138,16 @@ body::before{
   margin-bottom:25px;
 }
 
-button{
-  padding:12px 30px;
-  border:none;
-  border-radius:22px;
-  background:#d2b48c;
-  font-weight:500;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-button:hover{
-  background:#c19a6b;
-  transform:scale(1.05);
-}
-
 </style>
 </head>
 <body>
 
 <div class="particles" id="particles"></div>
+
+<!-- AUDIO -->
+<audio id="bgMusic" autoplay loop>
+  <source src="excuses.mp3" type="audio/mpeg">
+</audio>
 
 <!-- LOCK SCREEN -->
 <div id="timeOverlay">
@@ -175,21 +155,21 @@ button:hover{
 <div class="clock" id="clock"></div>
 
 <div class="message">
-
 Tomorrow at the <span class="highlight">Garnet Gala</span><br><br>
 
-I'll be arriving at
-
-<div class="timeHighlight">4:45 PM</div>
-
+I'll be arriving at <span class="highlight">4:45 PM</span>.<br>
 Make sure you're there.<br><br>
 
 I'll be wearing <span class="highlight">camel/tan and black</span>.<br>
+Tan suede coat, black turtleneck, black bootcut jeans.<br>
+Sleek and minimal look.<br>
 Make sure you wear something similar.<br><br>
+
+Just enough to be noticed…<br>
+A presence you won’t forget.<br><br>
 
 I'll be waiting for you there.<br>
 We need to talk.
-
 </div>
 
 <div class="lockHint">
@@ -206,22 +186,12 @@ You Found This
 </div>
 
 <div class="subtitle">
-Some messages aren't meant to be loud.
+Some messages are meant to be discovered.
 </div>
 
 <p>
-Not everything belongs online.<br>
-Some conversations happen in person.
-</p>
-
-<button onclick="revealMessage()">
-Reveal Message
-</button>
-
-<p id="hiddenMessage" style="margin-top:20px; display:none; opacity:0.8;">
-4:45 PM.<br>
-Camel and black.<br>
-I'll be there.
+The Garnet Gala awaits.<br>
+Sleek, minimal, and unforgettable.
 </p>
 
 </div>
@@ -229,7 +199,6 @@ I'll be there.
 <script>
 
 /* CLOCK */
-
 function updateClock(){
   const now=new Date();
   document.getElementById("clock").innerText=
@@ -239,7 +208,6 @@ setInterval(updateClock,1000);
 updateClock();
 
 /* PARTICLES */
-
 const particleContainer=document.getElementById("particles");
 
 for(let i=0;i<30;i++){
@@ -251,8 +219,32 @@ for(let i=0;i<30;i++){
   particleContainer.appendChild(p);
 }
 
-/* TIME LOCK */
+/* MUSIC AUTOPLAY FIX */
+const music = document.getElementById("bgMusic");
+music.volume = 0;
 
+function fadeInMusic(){
+  let vol = 0;
+  const fade = setInterval(()=>{
+    if(vol < 0.4){
+      vol += 0.02;
+      music.volume = vol;
+    } else {
+      clearInterval(fade);
+    }
+  }, 200);
+}
+
+window.addEventListener("load", ()=>{
+  music.play().then(fadeInMusic).catch(()=>{
+    document.body.addEventListener("click", ()=>{
+      music.play();
+      fadeInMusic();
+    }, { once: true });
+  });
+});
+
+/* TIME LOCK */
 const overlay=document.getElementById("timeOverlay");
 const content=document.getElementById("mainContent");
 
@@ -262,7 +254,6 @@ function checkTime(){
 
   if(h>=3 && h<6){
     overlay.style.opacity="0";
-
     setTimeout(()=>{
       overlay.style.display="none";
       content.style.display="block";
@@ -272,12 +263,6 @@ function checkTime(){
 
 setInterval(checkTime,30000);
 checkTime();
-
-/* BUTTON */
-
-function revealMessage(){
-  document.getElementById("hiddenMessage").style.display="block";
-}
 
 </script>
 
