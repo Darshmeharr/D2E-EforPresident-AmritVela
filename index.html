@@ -73,13 +73,6 @@ body::before {
   transition: opacity 1.2s ease;
 }
 
-.clock {
-  font-size: 72px;
-  color: #d2b48c;
-  letter-spacing: 4px;
-  margin-bottom: 20px;
-}
-
 .message {
   max-width: 600px;
   font-size: 19px;
@@ -87,7 +80,6 @@ body::before {
   font-weight: 300;
 }
 
-/* HIGHLIGHTS */
 .highlight {
   color: #d2b48c;
   font-weight: 500;
@@ -133,19 +125,18 @@ body::before {
   margin-bottom: 25px;
 }
 
-/* CLASSY ROMANTIC TYPING */
-.animatedText {
-  font-size: 20px;
-  font-weight: 500;
+/* TYPING ANIMATION FOR ALL TEXT */
+.typingText {
+  font-size: 19px;
+  font-weight: 300;
   color: #d2b48c;
   white-space: nowrap;
   overflow: hidden;
   border-right: 2px solid #d2b48c;
-  margin-top: 20px;
+  display: inline-block;
 }
 
-/* fade in letters + sparkle */
-.animatedText span {
+.typingText span {
   display: inline-block;
   opacity: 0;
   transform: translateY(8px);
@@ -156,13 +147,16 @@ body::before {
   to {opacity: 1; transform: translateY(0);}
 }
 
-/* SPARKLES */
+/* sparkle effect */
 @keyframes sparkle {
   0% { text-shadow: 0 0 2px #fff; }
   50% { text-shadow: 0 0 6px #fff, 0 0 10px #d2b48c; }
   100% { text-shadow: 0 0 2px #fff; }
 }
-.animatedText span:nth-child(odd) { animation: fadeInLetter 0.6s forwards, sparkle 2s infinite alternate; }
+.typingText span:nth-child(odd) {
+  animation: fadeInLetter 0.6s forwards, sparkle 2s infinite alternate;
+}
+
 </style>
 </head>
 <body>
@@ -176,48 +170,33 @@ body::before {
 
 <!-- LOCK SCREEN -->
 <div id="timeOverlay">
-  <div class="clock" id="clock"></div>
-
-  <div class="message">
+  <div class="message" id="lockMessage">
     Tomorrow at the <span class="highlight">Garnet Gala</span><br><br>
-
     I'll be arriving at <span class="highlight">4:45 PM</span>.<br>
     Make sure you're there.<br><br>
-
     I'll be wearing <span class="highlight">camel/tan and black</span>.<br>
     Tan suede coat, black turtleneck, black bootcut jeans.<br>
     Sleek and minimal look.<br>
     Make sure you wear something similar.<br><br>
-
     Just enough to be noticed…<br>
     A presence you won’t forget.<br><br>
-
     I'll be waiting for you there.<br>
-    We need to talk.
-    <br><br>
-    <div class="animatedText" id="animatedText"></div>
+    We need to talk.<br><br>
+    <span class="typingText" id="animatedText"></span>
   </div>
-
-  <div class="lockHint">Don't be late.</div>
+  <div class="lockHint" id="lockHintText">Don't be late.</div>
 </div>
 
 <!-- MAIN CONTENT -->
 <div class="card" id="mainContent" style="display:none">
-  <div class="title">You Found This</div>
-  <div class="subtitle">Some messages are meant to be discovered.</div>
-  <p>The Garnet Gala awaits.<br>Sleek, minimal, and unforgettable.</p>
+  <div class="title typingText" id="mainTitle">You Found This</div>
+  <div class="subtitle typingText" id="mainSubtitle">Some messages are meant to be discovered.</div>
+  <p class="typingText" id="mainParagraph">
+    The Garnet Gala awaits.<br>Sleek, minimal, and unforgettable.
+  </p>
 </div>
 
 <script>
-/* CLOCK */
-function updateClock(){
-  const now = new Date();
-  document.getElementById("clock").innerText =
-    now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-}
-setInterval(updateClock,1000);
-updateClock();
-
 /* PARTICLES */
 const particleContainer = document.getElementById("particles");
 for(let i=0;i<30;i++){
@@ -251,7 +230,6 @@ function fadeOutMusic(){
     }
   },200);
 }
-
 window.addEventListener("load", ()=>{
   music.play().then(fadeInMusic).catch(()=>{
     document.body.addEventListener("click", ()=>{
@@ -264,39 +242,42 @@ window.addEventListener("load", ()=>{
 /* LOCK SCREEN LOGIC */
 const overlay=document.getElementById("timeOverlay");
 const content=document.getElementById("mainContent");
-function checkTime(){
-  const now = new Date();
-  const h = now.getHours();
-  if(h >= 3 && h < 6){
-    overlay.style.opacity="0";
-    setTimeout(()=>{
-      overlay.style.display="none";
-      content.style.display="block";
-      fadeOutMusic();
-    },1200);
-  }
-}
-setInterval(checkTime,30000);
-checkTime();
+setTimeout(()=>{
+  overlay.style.opacity="0";
+  setTimeout(()=>{
+    overlay.style.display="none";
+    content.style.display="block";
+    fadeOutMusic();
+    startTypingMain(); // start main content typing
+  },1200);
+},5000); // 5 sec lock screen display
 
-/* ROMANTIC TYPING ANIMATION */
-const animatedText = document.getElementById("animatedText");
-const textToAnimate = "Be on time… the night is unforgettable.";
-let index = 0;
-
-function typeText() {
-  if(index < textToAnimate.length){
-    const span = document.createElement("span");
-    span.textContent = textToAnimate.charAt(index);
-    span.style.animationDelay = (index*0.08) + "s"; // staggered fade in
-    animatedText.appendChild(span);
-    index++;
-    setTimeout(typeText, 80);
+/* ROMANTIC TYPING FUNCTION */
+function typeText(element, text, delay=80){
+  let index = 0;
+  function type() {
+    if(index < text.length){
+      const span = document.createElement("span");
+      span.textContent = text.charAt(index);
+      span.style.animationDelay = (index*0.08) + "s";
+      element.appendChild(span);
+      index++;
+      setTimeout(type, delay);
+    }
   }
+  type();
 }
-window.addEventListener("load", ()=>{
-  setTimeout(typeText, 1000);
-});
+
+/* LOCK SCREEN TYPING TEXT */
+const lockTyping = document.getElementById("animatedText");
+typeText(lockTyping, "Be on time… the night is unforgettable.");
+
+/* MAIN CONTENT TYPING */
+function startTypingMain(){
+  typeText(document.getElementById("mainTitle"), "You Found This", 100);
+  typeText(document.getElementById("mainSubtitle"), "Some messages are meant to be discovered.", 60);
+  typeText(document.getElementById("mainParagraph"), "The Garnet Gala awaits. Sleek, minimal, and unforgettable.", 40);
+}
 </script>
 
 </body>
